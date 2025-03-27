@@ -74,20 +74,3 @@ void	pids_alloc_error(t_pipes *p, int nbr_of_cmds)
 	free(p);
 	exit(EXIT_FAILURE);
 }
-
-/* fonction pour afficher un message d'erreur */
-void	print_error(char *error)
-{
-	char	*error_msg;
-
-	if (error == NULL)
-		return ;
-	error_msg = ft_strjoin("minishell: ", error);
-	is_malloc_failed(error_msg);
-	if (error_msg == NULL)
-		exit(EXIT_FAILURE);
-	// affichage du message d'erreur
-	write(2, error_msg, ft_strlen(error_msg));
-	write(2, "\n", 1);
-	free(error_msg);
-}

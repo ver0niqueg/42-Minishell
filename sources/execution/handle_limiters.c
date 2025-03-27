@@ -12,20 +12,6 @@
 
 #include "../../includes/minishell.h"
 
-/* fonction qui libere la memoire de limiter_data pour toutes les cmds */
-void free_limiters(t_parsing *p, int nb_of_cmds)
-{
-	int i;
-
-	i = 0;
-	while (i < nb_of_cmds)
-	{
-		free(p[i].limiter_data);
-		p[i].limiter_data = NULL;
-		i++;
-	}
-}
-
 /* fonction qui duplique une chaine et ajoute un saut de ligne \n */
 static char	*ft_strdup_nl(const char *str)
 {

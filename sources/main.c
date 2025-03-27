@@ -12,16 +12,6 @@
 
 #include "../includes/minishell.h"
 
-void	free_split(char **strs)
-{
-	int	i;
-
-	i = -1;
-	while (strs[++i] != NULL)
-		free(strs[i]);
-	free(strs);
-}
-
 /* fonction qui duplique l'envp du processus pour eviter de modifier
 l'original */
 static char	**copy_envp(char **envp)
@@ -96,8 +86,8 @@ int main(int argc, char **argv, char **envp)
 	struct sigaction saq;
 
     if (argc != 1)
-        printf("Error, no arguments needed\n"), exit(EXIT_FAILURE);
-    	// 1- gestion du signal Ctrl+C (SIGINT) -> empeche de quitter le shell
+        (printf("Error, no arguments needed\n"), exit(EXIT_FAILURE));
+    // 1- gestion du signal Ctrl+C (SIGINT) -> empeche de quitter le shell
 	sa.sa_handler = &handle_sigint; // definit handle_sigint comme fonction de gestion du signal SIGINT (Ctrl+C)
 	sa.sa_flags = SA_RESTART; // redemare les appels systeme interrompus au lieu de les stopper
 	(sigemptyset(&sa.sa_mask), sigaddset(&sa.sa_mask, CNTRL_C));

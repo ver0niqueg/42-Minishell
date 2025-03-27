@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   errors_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: viviane <viviane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vgalmich <vgalmich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 20:02:54 by vihane            #+#    #+#             */
-/*   Updated: 2025/03/25 18:22:55 by viviane          ###   ########.fr       */
+/*   Updated: 2025/03/27 15:30:29 by vgalmich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-void    is_failed_malloc(char *str)
+void    is_malloc_failed(char *str)
 {
     if (str == NULL)
     {
@@ -27,8 +27,8 @@ void    print_error(char *str)
 
     if (!str)
         return ;
-    msg = ft_strjoin("Minishell :, ", str);
-    is_failed_malloc(msg);
+    msg = ft_strjoin("Minishell: ", str);
+    is_malloc_failed(msg);
     if (!msg)
         exit(EXIT_FAILURE);
     write(2, msg, ft_strlen(msg));

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: viviane <viviane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vgalmich <vgalmich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 12:21:08 by viviane           #+#    #+#             */
-/*   Updated: 2025/03/25 18:28:42 by viviane          ###   ########.fr       */
+/*   Updated: 2025/03/27 15:26:19 by vgalmich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@
 #include <termios.h>
 #include <curses.h>
 #include <dirent.h>
-#include <Kernel/sys/syslimits.h>
 
 /*MACRO*/
 
@@ -289,7 +288,6 @@ void		execve_error(char **args, t_minishell *minishell);
 void		dup_error(int fd);
 void		fork_error(t_pipes *p, int nbr_of_cmds);
 void		pids_alloc_error(t_pipes *p, int nbr_of_cmds);
-void		print_error(char *error);
 
 // exec_utils
 char    	**find_env_paths(char **env);

@@ -23,7 +23,7 @@ int handle_heredoc(char *line, int start, t_parsing *parsed, int *limiter_size)
     end = start;
     while (find_end_of_word(&end, line) == 1)
         ft_substring(line + start, end - start - 1, &limiter);
-    if (limiter)
+    if (limiter != NULL)
     {
         add_str(&parsed->limiter, limiter, limiter_size);
         if (parsed->entry != NULL)
@@ -72,7 +72,7 @@ int handle_exit(char *line, int start, t_parsing *parsed, t_minishell *minishell
     }
     ft_skip_spaces(&start, line);
     end = start;
-    if (parsed->exit)
+    if (parsed->exit != NULL)
     {
         free(parsed->exit);
         parsed->exit = NULL;

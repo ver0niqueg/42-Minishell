@@ -25,12 +25,12 @@ void    expand_word(char **line, t_point expand, int *new_len,
     name = ft_strndup((*line) + *expand.i, *expand.j - *expand.i);
     value = ft_strdup(ft_getenv((const char **)minishell->envp, name));
     free(name);
-    if (value)
+    if (value != NULL)
     {
         change_to_value(value, line, *expand.j, *expand.i);
         new_lenght((*line), value, expand.i, new_len);
     }
-    else if (!value)
+    else if (value == NULL)
         delete_var(*line, expand.i, *expand.j, new_len);
     free(value);
 }
@@ -85,7 +85,7 @@ void   expand(char **line, t_minishell *minishell)
     while ((*line) && i < (int)ft_strlen(*line))
     {
         if ((*line)[i] && (*line)[i] == '\'')
-            find_second_quote(&i, *line, '\'');
+            find_second_quote(&i, (*line), '\'');
         else if ((*line)[i] && (*line)[i] != '\'')
         {
             if ((*line)[i] == '"')
@@ -98,7 +98,7 @@ void   expand(char **line, t_minishell *minishell)
                 new_len = i;
             look_for_var(&(*line), &new_len, &i, minishell);
         }
-        if ((*line) && ft_empty_line(*line))
+        if ((*line) != NULL && ft_empty_line(*line))
             (free((*line)), (*line) = NULL);
     }
 }

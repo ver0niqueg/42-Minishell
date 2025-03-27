@@ -6,7 +6,7 @@
 /*   By: viviane <viviane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 18:49:08 by viviane           #+#    #+#             */
-/*   Updated: 2025/03/25 18:21:50 by viviane          ###   ########.fr       */
+/*   Updated: 2025/03/27 21:03:38 by viviane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void    handle_redir_type(t_line_info line_info, int *limiter_size,
         start++;
     if (redir == '<' && line_info.line[start] == redir)
         *line_info.index = handle_heredoc(line_info.line, start, parsed, limiter_size);
-    if (!parsed->err_msg)
+    if (parsed->err_msg == NULL)
     {
         if (redir == '<' && line_info.line[start] != redir)
             *line_info.index = handle_entry(line_info.line, start,
@@ -51,7 +51,7 @@ char    *extract_token(char *line, int *i, t_parsing *parsed)
     int start;
     char *extract_buffer;
 
-    if (parsed->err_msg)
+    if (parsed->err_msg != NULL)
         return (NULL);
     extract_buffer = NULL;
     start = *i;
@@ -73,7 +73,6 @@ void    add_command(t_line_info line_info, int *cmd_size, t_parsing *parsed,
     buffer = extract_token(line_info.line, line_info.index, parsed);
     if (!buffer)
         return ;
-    printf("buffer = %s\n", buffer);
     expand(&buffer, minishell);
     if (!buffer)
         return ;

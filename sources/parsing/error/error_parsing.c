@@ -93,9 +93,15 @@ void    add_limiters(char *buffer, int *limiter_size, t_parsing *parsed)
     }
 }
 
-/*Permet de verifier char par char les erreurs de syntaxe qui ne seront donc pas
-prise en compte. Elle modifie la struct parsing en ajoutant ou pas les erreurs 
-detectees.*/
+/*Cette fonction vérifie les erreurs de syntaxe dans la ligne de commande.
+Les pipes mal placés, les redirections incorrectes et les guillemets non fermés.
+On vérifie char par char et si une erreur est trouvé err_nb est set à 2.
+
+On réinitialise t_parsing, on vérifie si un pipe est trouvé en première position,
+On parcourt la ligne à la recherche d'une erreur (err_msg != NULL) ou la fin de la
+ligne.
+On commence par skip les espaces en début de ligne si il y en a, 
+*/
 void    if_syntax_error(char *line, t_parsing *parsed)
 {
     int i;

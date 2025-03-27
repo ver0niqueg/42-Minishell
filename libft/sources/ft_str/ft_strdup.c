@@ -6,7 +6,7 @@
 /*   By: viviane <viviane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 13:22:26 by vihane            #+#    #+#             */
-/*   Updated: 2025/03/16 18:38:26 by viviane          ###   ########.fr       */
+/*   Updated: 2025/03/27 21:55:39 by viviane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,20 @@
 
 char	*ft_strdup(const char *s)
 {
-	char	*src;
-	int		i;
+	char	*cpy;
+	size_t		i;
 
 	i = 0;
-	if (s == NULL)
+	if (!s)
 		return (NULL);
-	src = malloc(sizeof(char) * (ft_strlen(s) + 1));
-	if (src == NULL)
+	cpy = malloc(sizeof(char) * (ft_strlen(s) + 1));
+	if (cpy == NULL)
 		return (NULL);
-	while (i < (int)ft_strlen(s))
+	while (i < ft_strlen(s))
 	{
-		{
-			src[i] = s[i];
-			i++;
-		}
+		cpy[i] = s[i];
+		i++;
 	}
-	src[i] = '\0';
-	return (src);
+	cpy[i] = '\0';
+	return (cpy);
 }

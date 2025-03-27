@@ -16,7 +16,7 @@ char    *put_all(char first, char second, char third)
 {
     char *letter;
 
-    letter = malloc(sizeof(char) * 5);
+    letter = (char *)malloc(sizeof(char) * 5);
     is_malloc_failed(letter);
     letter[0] = first;
     letter[1] = second;
@@ -56,26 +56,26 @@ void    put_first(char first, char *err_msg, t_parsing *parsed)
 
 void    syntax_err_msg(t_parsing *parsed, char first, char second, char third)
 {
-    char *err_msg;
+    char *msg;
     char *letter;
 
-    err_msg = ft_strdup("syntax error near unexpected token `");
-    is_malloc_failed(err_msg);
+    msg = ft_strdup("syntax error near unexpected token `");
+    is_malloc_failed(msg);
     if (first == '\0')
     {
-        parsed->err_msg = ft_strjoin(err_msg, "newline\'");
-        is_malloc_failed(err_msg);
+        parsed->err_msg = ft_strjoin(msg, "newline\'");
+        is_malloc_failed(msg);
     }
     else if (first != '\0' && second == '\0')
-        put_first(first, err_msg, parsed);
+        put_first(first, msg, parsed);
     else if (first != '\0' && second != '\0' && third == '\0')
-        put_first_and_second(first, second, err_msg, parsed);
+        put_first_and_second(first, second, msg, parsed);
     else if (first != '\0' && second != '\0' && third != '\0')
     {
         letter = put_all(first, second, third);
-        parsed->err_msg = ft_strjoin(err_msg, letter);
+        parsed->err_msg = ft_strjoin(msg, letter);
         free(letter);
     }
-    free(err_msg);
+    free(msg);
     parsed->err_nb = 2;
 }

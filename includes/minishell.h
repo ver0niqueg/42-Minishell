@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vgalmich <vgalmich@student.42.fr>          +#+  +:+       +#+        */
+/*   By: viviane <viviane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 12:21:08 by viviane           #+#    #+#             */
-/*   Updated: 2025/03/27 15:26:19 by vgalmich         ###   ########.fr       */
+/*   Updated: 2025/03/27 23:30:26 by viviane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,24 +15,26 @@
 
 /*LIBRAIRIES*/
 
-#include "../libft/includes/libft.h"
-#include "../libft/includes/get_next_line.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <fcntl.h>
-#include <signal.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <sys/resource.h>
-#include <sys/ioctl.h>
-#include <sys/stat.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-#include <errno.h>
-#include <termios.h>
-#include <curses.h>
-#include <dirent.h>
+# include "../libft/includes/libft.h"
+# include <stdio.h>
+# include <stdlib.h>
+# include <unistd.h>
+# include <fcntl.h>
+# include <signal.h>
+# include <sys/types.h>
+# include <sys/wait.h>
+# include <sys/resource.h>
+# include <sys/ioctl.h>
+# include <sys/stat.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+# include <errno.h>
+# include <termios.h>
+# include <curses.h>
+# include <dirent.h>
+# include <stdbool.h>
+# include <stddef.h>
+# include <Kernel/sys/syslimits.h>
 
 /*MACRO*/
 
@@ -114,7 +116,7 @@ void    also_first_and_second(char first, char second, char *msg, t_parsing *par
 char    *put_all_letters(char first, char second, char third);
 void    syntax_err_msg(t_parsing *parsed, char first, char second, char third);
 
-void    is_malloc_failed(char *str);
+void    is_malloc_failed(void *str);
 void    print_error(char *str);
 
 void    delete_var(char *line, int *i, int to_dollar, int *new_len);
@@ -162,7 +164,7 @@ char    *extract_token(char *line, int *i, t_parsing *parsed);
 void    add_command(t_line_info line_info, int *cmd_size, t_parsing *parsed, t_minishell *minishell);
 void    parsing(t_parsing *parsed, char *line, t_minishell *minishell, int init);
 
-void    handle_quote(char *line, char quote, char *to_free);
+void    handle_second_quote(char *line, char quote, char *to_free);
 void    handle_first_quote(char *line, int inside_quote, char *to_free);
 
 int     handle_heredoc(char *line, int start, t_parsing *parsed, int *limiter_size);

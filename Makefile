@@ -50,13 +50,13 @@ SRCS =		$(SRCS_DIR)/builtins/builtins_utils.c \
 			$(SRCS_DIR)/parsing/error/error_msg.c \
 			$(SRCS_DIR)/parsing/error/error_parsing.c \
 			$(SRCS_DIR)/parsing/error/syntax_err_msg.c \
-			$(SRCS_DIR)/parsing/redir/check_path_utils.c \
+			$(SRCS_DIR)/parsing/redir/entry/find_dir_en.c \
+			$(SRCS_DIR)/parsing/redir/entry/redirections_test.c \
+			$(SRCS_DIR)/parsing/redir/exit/check_path_utils.c \
+			$(SRCS_DIR)/parsing/redir/exit/ex_redir_test.c \
+			$(SRCS_DIR)/parsing/redir/exit/find_dir_ex.c \
 			$(SRCS_DIR)/parsing/redir/error_redirections.c \
-			$(SRCS_DIR)/parsing/redir/ex_redir_test.c \
-			$(SRCS_DIR)/parsing/redir/find_dir_en.c \
-			$(SRCS_DIR)/parsing/redir/find_dir_ex.c \
 			$(SRCS_DIR)/parsing/redir/redir_utils.c \
-			$(SRCS_DIR)/parsing/redir/redirections_test.c \
 			$(SRCS_DIR)/parsing/redir/redirections.c \
 			$(SRCS_DIR)/parsing/utils/errors_utils.c \
 			$(SRCS_DIR)/parsing/utils/expand_utils.c \

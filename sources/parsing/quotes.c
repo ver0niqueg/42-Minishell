@@ -12,7 +12,13 @@
 
 #include "../../includes/minishell.h"
 
-void    handle_quote(char *line, char quote, char *to_free)
+/*Cette fonction vérifie si un guillemet donné est bien fermé.
+Avec ft_strchr on cherche la position du guillemet. Si quote reste null, 
+c'est que le guillemet n'a pas été fermé, on libère donc la mémoire.
+Sinon (donc on a trouvé le premier) on continue la vérification et on cherche
+second correspondant en sautant le premier que l'on a trouvé (d'ou le 
+quote_pos + 1)*/
+void    handle_second_quote(char *line, char quote, char *to_free)
 {
     char    *quote_pos;
 
@@ -23,6 +29,10 @@ void    handle_quote(char *line, char quote, char *to_free)
     return ;
 }
 
+/*Cette fonction determine quel type de guillemet apparait en premier dans la ligne.
+Et appelle handle_quote pour vérifier que ce guillemet est bien fermé. On va d'abord 
+chercher dans la ligne le premier guillemet et on va tout de suite chercher son guillemet
+correspondant.*/
 void    handle_first_quote(char *line, int inside_quote, char *to_free)
 {
     char *double_quote;
@@ -35,9 +45,9 @@ void    handle_first_quote(char *line, int inside_quote, char *to_free)
     double_quote = ft_strchr(line, '"');
     simple_quote = ft_strchr(line, '\'');
     if ((double_quote != NULL && simple_quote == NULL) || (double_quote < simple_quote && (double_quote && simple_quote)))
-        (handle_quote(double_quote + 1, '"', to_free));
+        (handle_second_quote(double_quote + 1, '"', to_free));
     else if ((double_quote == NULL && simple_quote != NULL) 
                 || (double_quote > simple_quote && (double_quote && simple_quote)))
-        (handle_quote(simple_quote + 1, '\'', to_free));
+        (handle_second_quote(simple_quote + 1, '\'', to_free));
     return ;
 }

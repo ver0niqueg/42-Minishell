@@ -6,7 +6,7 @@
 /*   By: viviane <viviane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 22:54:19 by viviane           #+#    #+#             */
-/*   Updated: 2025/03/25 18:25:32 by viviane          ###   ########.fr       */
+/*   Updated: 2025/03/27 21:00:29 by viviane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ variable dans la ligne de commande par '\0'*/
 void    delete_var(char *line, int *i, int to_dollar, int *new_len)
 {
     (*i)--;
-    while (line[to_dollar])
+    while (line[to_dollar] != '\0')
     {
         line[*i] = line[to_dollar];
         to_dollar++;

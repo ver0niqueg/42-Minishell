@@ -48,6 +48,7 @@ void	handle_sigint(int sig)
 	rl_redisplay();
 }
 
+/*Boucle infini qui lit les commandes, les analyse et les exécute*/
 void write_prompt(t_minishell *minishell)
 {
     char *prompt;
@@ -74,17 +75,16 @@ void write_prompt(t_minishell *minishell)
             free_parsed(minishell->parsed, minishell->nb_of_cmds);
         }
     }
-    //rl_clear_history();
+    rl_clear_history();
 }
 
 int main(int argc, char **argv, char **envp)
 {
     t_minishell minishell;
-
-    (void)argv;
 	struct sigaction sa;
 	struct sigaction saq;
 
+	(void)argv;
     if (argc != 1)
         (printf("Error, no arguments needed\n"), exit(EXIT_FAILURE));
     // 1- gestion du signal Ctrl+C (SIGINT) -> empeche de quitter le shell
@@ -97,6 +97,7 @@ int main(int argc, char **argv, char **envp)
 	saq.sa_flags = SA_RESTART;
 	(sigemptyset(&saq.sa_mask), sigaddset(&saq.sa_mask, CNTRL_B_SLASH));
 	// 3- duplication de l'env -> pour une gestion propre
+	sigaction(CNTRL_B_SLASH, &saq, NULL);
 	minishell.envp = copy_envp(envp);
 	if (minishell.envp == NULL)
 		return (EXIT_FAILURE);

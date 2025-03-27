@@ -22,7 +22,7 @@ void    if_no_syntax_error(char *line, t_minishell *minishell)
     i = 0;
     j = 0;
     k = 0;
-    if (minishell->parsed[0].limiter)
+    if (minishell->parsed[0].limiter != NULL)
         free_words(minishell->parsed[0].limiter);
     while (i < minishell->nb_of_cmds)
     {

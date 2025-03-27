@@ -28,7 +28,7 @@ void	open_file(char *exp, t_parsing *parsed)
 void    alloc_or_free(int on_sign, char *line, t_parsing *parsed, 
                         t_minishell *minishell)
 {
-    if (parsed->exit && parsed->exit[0] != '\0')
+    if (parsed->exit != NULL && parsed->exit[0] != '\0')
     {
         exit_error(parsed->exit, parsed, minishell);
         if (on_sign - 1 >= 0 && line[on_sign - 1] == '<')
@@ -55,9 +55,9 @@ void    found_error(t_parsing *parsed, char *exp,
     is_malloc_failed(parsed->err_msg);
     parsed->err_nb = 1;
     free_redir(parsed);
-    if (exp)
+    if (exp != NULL)
         free(exp);
-    if (dir_or_fil)
+    if (dir_or_fil != NULL)
         free(dir_or_fil);
 }
 

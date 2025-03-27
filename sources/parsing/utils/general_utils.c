@@ -41,16 +41,20 @@ int ft_empty_line(char *line)
 
     i = -1;
     count = 0;
-    if (!line)
+    if (line == NULL)
         return (1);
-    while (line[++i])
-        if ((line[i] >= 9 && line[i] <= 13) && line[i] != ' ')
+    while (line[++i] != '\0')
+        if (!(line[i] >= 9 && line[i] <= 13) && line[i] != ' ')
             count++;
     if (count == 0)
         return (1);
     return (0);
 }
 
+/*Cette fonction compte le nombre d'occurrence d'un caractère dans la ligne
+de commande en ignorant les caractères entre guillemets. Ex si le pipe se trouve
+entre guillemet il ne sera pas pris en compte car il fait partie d'une seule et même
+commande.*/
 int count_chars(char *line, char c)
 {
     int i;
@@ -66,7 +70,7 @@ int count_chars(char *line, char c)
         if (line[i] == '\'' || line[i] == '"')
         {
             quote = line[i];
-            i++;
+            i++; //saute le guillemet ouvrant
             while (line[i] && line[i] != quote)
                 i++;
         }

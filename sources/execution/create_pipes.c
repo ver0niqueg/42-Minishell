@@ -35,7 +35,9 @@ la gestion des pipes (redirections entre processus) et la gestion des pids */
 void    launch_processes(t_minishell *minishell, int nb_pipes)
 {
 	int nb_forks;
+	int i;
 
+	i = 0;
 	nb_forks = minishell->nb_of_cmds;
 	// on cree un processus pour chaque commande
 	if (nb_pipes > NB_MAX_OF_CMDS - 2)
@@ -53,6 +55,13 @@ void    launch_processes(t_minishell *minishell, int nb_pipes)
 	minishell->pids = (pid_t *)malloc(sizeof(pid_t) * (nb_forks));
 	if (minishell->pids == NULL)
 		pids_alloc_error(minishell->pipes, nb_forks);
+	/*
+	while(i < nb_forks)
+	{
+		minishell->pids[i] = -1;
+		i++;
+	}
+	*/
 	exec_commands(minishell, nb_forks);
 	free(minishell->pids);
 }

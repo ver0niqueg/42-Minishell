@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: viviane <viviane@student.42.fr>            +#+  +:+       +#+         #
+#    By: vgalmich <vgalmich@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/22 14:53:05 by vihane            #+#    #+#              #
-#    Updated: 2025/03/16 19:03:49 by viviane          ###   ########.fr        #
+#    Updated: 2025/03/28 19:25:39 by vgalmich         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -69,7 +69,7 @@ SRCS        :=      sources/ft_str/ft_strchr.c \
 OBJS	=	${SRCS:.c=.o}
 
 CC		=	cc
-CFLAGS	=	-Wall -Wextra -Werror -I includes
+CFLAGS	=	-Wall -Wextra -Werror -I includes -g
 RM		=	rm -f
 AR		=	ar rcs
 

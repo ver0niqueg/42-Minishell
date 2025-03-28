@@ -44,7 +44,7 @@ void	handle_sigint(int sig)
 	(void)sig;
 	printf("\n");
 	rl_on_new_line();
-	//rl_replace_line("", 0);
+	rl_replace_line("", 0);
 	rl_redisplay();
 }
 
@@ -75,7 +75,7 @@ void write_prompt(t_minishell *minishell)
             free_parsed(minishell->parsed, minishell->nb_of_cmds);
         }
     }
-    //rl_clear_history();
+    rl_clear_history();
 }
 
 int main(int argc, char **argv, char **envp)
@@ -86,7 +86,10 @@ int main(int argc, char **argv, char **envp)
 
 	(void)argv;
     if (argc != 1)
-        (printf("Error, no arguments needed\n"), exit(EXIT_FAILURE));
+	{
+        printf("Error, no arguments needed\n");
+		exit(EXIT_FAILURE);
+	}
     // 1- gestion du signal Ctrl+C (SIGINT) -> empeche de quitter le shell
 	sa.sa_handler = &handle_sigint; // definit handle_sigint comme fonction de gestion du signal SIGINT (Ctrl+C)
 	sa.sa_flags = SA_RESTART; // redemare les appels systeme interrompus au lieu de les stopper

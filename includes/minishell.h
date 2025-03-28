@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: viviane <viviane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vgalmich <vgalmich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 12:21:08 by viviane           #+#    #+#             */
-/*   Updated: 2025/03/27 23:30:26 by viviane          ###   ########.fr       */
+/*   Updated: 2025/03/28 18:14:04 by vgalmich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@
 # include <dirent.h>
 # include <stdbool.h>
 # include <stddef.h>
-# include <Kernel/sys/syslimits.h>
+// # include <Kernel/sys/syslimits.h>
 
 /*MACRO*/
 

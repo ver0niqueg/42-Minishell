@@ -6,7 +6,7 @@
 /*   By: viviane <viviane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 13:06:20 by vihane            #+#    #+#             */
-/*   Updated: 2025/03/17 18:32:40 by viviane          ###   ########.fr       */
+/*   Updated: 2025/03/28 18:06:35 by viviane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	*ft_memset(void *s, int c, size_t n)
 
 	cpy = (char *)s;
 	i = n;
-	while (n <= 0)
+	while (n != 0)
 	{
 		*cpy = (char)c;
 		n--;

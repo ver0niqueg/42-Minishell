@@ -12,25 +12,31 @@
 
 #include "../../includes/minishell.h"
 
-void    expand_word(char **line, t_point expand, int *new_len, 
-                    t_minishell *minishell)
+void expand_word(char **line, t_point expand, int *new_len, t_minishell *minishell)
 {
     char *name;
     char *value;
 
     (*expand.j)++;
-    while (ft_isalpha((*line)[*expand.j]) || ft_isdigit((*line)[*expand.j]) 
-            || (*line)[*expand.j] == '_')
-        (expand.j)++;
+    // Vérifier que *expand.j est dans les limites de la chaîne
+    if (*expand.j >= (int)ft_strlen(*line))
+        return; // Ne pas dépasser la taille de la ligne
+    while (ft_isalpha((*line)[*expand.j]) || ft_isdigit((*line)[*expand.j]) || (*line)[*expand.j] == '_')
+        (*expand.j)++;
     name = ft_strndup((*line) + *expand.i, *expand.j - *expand.i);
+    if (name == NULL)
+        return; // Si ft_strndup échoue, sortir tôt
+    // Récupérer la valeur de la variable d'environnement
     value = ft_strdup(ft_getenv((const char **)minishell->envp, name));
     free(name);
     if (value != NULL)
     {
+        // Remplacer la variable par sa valeur
         change_to_value(value, line, *expand.j, *expand.i);
-        new_lenght((*line), value, expand.i, new_len);
+        new_lenght(*line, value, expand.i, new_len);
     }
-    else if (value == NULL)
+    else
+        // Si la variable d'environnement n'existe pas, la supprimer
         delete_var(*line, expand.i, *expand.j, new_len);
     free(value);
 }

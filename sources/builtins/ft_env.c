@@ -13,15 +13,14 @@
 #include "../../includes/minishell.h"
 
 /* fonction qui affiche les variables d'env du shell */
-
-int ft_env(char **args, t_fd input_fd, t_fd output_fd, char ***envp)
+int	ft_env(char **args, t_fd input_fd, t_fd output_fd, char ***envp)
 {
-	int i;
-	
+	int	i;
+
 	(void)args;
 	(void)input_fd;
 	i = 0;
-	while ((*envp)[i] != NULL) // tant qu'il ya des variable d'env on imprime
+	while ((*envp)[i] != NULL)
 	{
 		write(output_fd, (*envp)[i], ft_strlen((*envp)[i]));
 		write(output_fd, "\n", 1);
@@ -29,7 +28,7 @@ int ft_env(char **args, t_fd input_fd, t_fd output_fd, char ***envp)
 	}
 	if (errno != 0)
 	{
-		write_error_msg("minishell: env: write error:", strerror(errno)); // strerror transforme le code d'erreur errno en un message comprehensible
+		write_error_msg("minishell: env: write error:", strerror(errno));
 		return (125); // erreur d'ecriture
 	}
 	return (0);

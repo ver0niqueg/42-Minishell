@@ -13,100 +13,96 @@
 #include "../../includes/minishell.h"
 
 /* fonction qui recherche et renvoie la valeur d'une variable d'env dans un
-tableau env a partir de son nom 
-TEST OK */
-char    *ft_get_env(const char **envp, const char *key)
+tableau env a partir de son nom */
+char	*ft_get_env(const char **envp, const char *key)
 {
-	int     i;
-	size_t  key_len;
+	int		i;
+	size_t	key_len;
 
 	if (key == NULL || key[0] == '\0')
-		return (NULL);  // Si le nom est NULL ou vide, on retourne NULL
+		return (NULL);
 	i = 0;
-	while (envp[i] != NULL) 
+	while (envp[i] != NULL)
 	{
-			key_len = ft_strchr(envp[i], '=') - envp[i];  // Calculer la longueur de la clé
-			if (ft_strncmp(envp[i], key, key_len) == 0 
-				&& ft_strlen(key) == key_len)
-				return (ft_strchr(envp[i], '=') + 1);  // Retourner la valeur après '='
+		key_len = ft_strchr(envp[i], '=') - envp[i];
+		if (ft_strncmp(envp[i], key, key_len) == 0
+			&& ft_strlen(key) == key_len)
+			return (ft_strchr(envp[i], '=') + 1);
 		i++;
 	}
-	return (NULL);  // Retourner NULL si aucune variable d'environnement n'a été trouvée
+	return (NULL);
 }
 
 /* fonction qui ajoute une nouvelle variable d'env et remplace donc le tableau
-avec un nouveau 
-TEST ??? */
-static int add_new_key_value(char ***envp, const char *key,  const char *value)
+avec un nouveau */
+static int	add_new_key_value(char ***envp, const char *key, const char *value)
 {
-	char    **new_envp;
-	int     i;
-	size_t  keyvalue_len;
+	char	**new_envp;
+	int		i;
+	size_t	keyvalue_len;
 
 	i = 0;
-	// compter les var d'env existantes
 	while ((*envp)[i] != NULL)
 		i++;
-	// allouer un nouveau tableau de var plus grand
-	new_envp = (char **)malloc(sizeof(char *) * (i + 2)); // 2 pour la new var et le NULL final
+	// allocation d'un nouveau tableau de var + grand
+	new_envp = (char **)malloc(sizeof(char *) * (i + 2));
 	if (new_envp == NULL)
 		return (-1);
-	// copier l'ancien tableau dans le nouveau
+	// copie de l'ancien tableau dans le nouveau
 	(ft_memcpy(new_envp, *envp, sizeof(char *) * i), new_envp[i + 1] = NULL);
-	// allouer de la memoire pour "key=value"
+	// allocation de la memoire pour "key=value"
 	keyvalue_len = ft_strlen(key) + 1 + ft_strlen(value);
 	new_envp[i] = (char *)malloc(sizeof(char) * (keyvalue_len + 1));
 	if (new_envp[i] == NULL)
 	{
 		free(new_envp);
 		return (-1);
-	} 
-	// construire la chaine
-	ft_memcpy(new_envp[i], key, sizeof(char) * ft_strlen(key)); // copie de la key
-	ft_memcpy(new_envp[i] + ft_strlen(key), "=", sizeof(char) * 1); // ajout de "=")
-	ft_memcpy(new_envp[i] + ft_strlen(key) + 1, value, sizeof(char) * ft_strlen(value)); // copie de la valeur
-	new_envp[i][keyvalue_len] = '\0'; // ajout du marqueur de fin
-	// liberer l'ancien env
+	}
+	// construction de la chaine (key=valeur\0)
+	ft_memcpy(new_envp[i], key, sizeof(char) * ft_strlen(key));
+	ft_memcpy(new_envp[i] + ft_strlen(key), "=", sizeof(char) * 1);
+	ft_memcpy(new_envp[i] + ft_strlen(key) + 1, value,
+		sizeof(char) * ft_strlen(value));
+	new_envp[i][keyvalue_len] = '\0';
+	// liberation de l'ancien env
 	(free(*envp), *envp = new_envp);
 	return (0);
 }
 
-/* fonction qui supprime une variable d'env 
-TEST ??? */
+/* fonction qui supprime une variable d'env */
 int	ft_unset_env(char **envp, const char *key)
 {
 	int		i;
 	size_t	key_len;
 
-	if (key == NULL ||key[0] == '\0' ||ft_strchr(key, '='))
+	if (key == NULL || key[0] == '\0' || ft_strchr(key, '='))
 	{
 		errno = EINVAL; // = n'est pas inclus dans la key mais dans la valeur
 		return (-1);
 	}
 	i = -1;
-	// on cherche la variable en question
+	// on cherche la variable concernee
 	while (envp[++i] != NULL)
 	{
 		key_len = ft_strchr(envp[i], '=') - envp[i];
 		if (ft_strncmp(envp[i], key, key_len) == 0 && ft_strlen(key) == key_len)
-			break;
+			break ;
 	}
 	// supprimer la variable trouvee
 	if (envp[i] != NULL)
 	{
 		free(envp[i--]);
-		while (envp[++i] != NULL) // on decale les variables suivantes pour combler le trou
-			envp[i] = envp[i + 1]; // le dernier element devient NULL pour marquer la fin
+		while (envp[++i] != NULL) // decale les var suivantes pour combler
+			envp[i] = envp[i + 1]; // le dernier is NULL pour marquer la fin
 	}
 	return (0);
 }
 
-/* fonction qui ajoute ou modifie une variable d'env (sa valeur)
-TEST ??? */
-int ft_set_env(char ***envp, const char *var, const char *value, int overwrite)
+/* fonction qui ajoute ou modifie une variable d'env (sa valeur) */
+int	ft_set_env(char ***envp, const char *var, const char *value, int overwrite)
 {
-	int     i;
-	size_t  key_len;
+	int		i;
+	size_t	key_len;
 
 	i = -1;
 	// check si la variable existe deja
@@ -131,9 +127,8 @@ int ft_set_env(char ***envp, const char *var, const char *value, int overwrite)
 	return (0);
 }
 
-/* fonction qui ecrit un message d'erreur sur la sortie standard stderr
-TEST OK */
-void    write_error_msg(const char *title, const char *error_msg)
+/* fonction qui ecrit un message d'erreur sur la sortie standard stderr */
+void	write_error_msg(const char *title, const char *error_msg)
 {
 	write(STDERR_FILENO, title, ft_strlen(title));
 	write(STDERR_FILENO, error_msg, ft_strlen(error_msg));

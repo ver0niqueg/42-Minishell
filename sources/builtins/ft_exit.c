@@ -20,16 +20,14 @@ void	cd_write_error(const char *s1, const char *s2, const char *s3)
 	write(STDERR_FILENO, "\n", 1);
 }
 
-/* fonction qui garantit qu'on ne ferme que des FD ouverts dynamiquement */
+/* fonction qui garantit qu'on ne ferme que des fd ouverts dynamiquement */
 static bool	can_close_fd(int fd)
 {
 	return (fd > 1
 		&& fd != STDIN_FILENO
 		&& fd != STDOUT_FILENO
 		&& fd != STDERR_FILENO);
-} 
-// fichier >  sont generalement des fichiers ouverts
-// empeche les fermetures sur les sorties en question
+}
 
 static bool	is_valid_int(const char *str)
 {
@@ -55,6 +53,7 @@ void	close_fds_and_exit(t_fd input_fd, t_fd output_fd, int return_code)
 		close(output_fd);
 	exit(return_code);
 }
+
 /* fonction qui permet de terminer le programme en cours avec un code de
 retour specifique */
 int	ft_exit(char **args, t_fd input_fd, t_fd output_fd, char ***envp)
@@ -80,7 +79,7 @@ int	ft_exit(char **args, t_fd input_fd, t_fd output_fd, char ***envp)
 			write(STDERR_FILENO, "minishell: exit: too many arguments\n", 36);
 			return (1);
 		}
-		close_fds_and_exit(input_fd, output_fd, ft_atoi(args[0])); // convertit l'arg en int et quitte avec ce code
+		close_fds_and_exit(input_fd, output_fd, ft_atoi(args[0]));
 	}
 	else // cas ou l'argument n'est pas un nb
 		(cd_write_error("minishell: exit: ",

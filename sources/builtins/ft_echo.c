@@ -12,15 +12,14 @@
 
 #include "../../includes/minishell.h"
 
-/* cmd echo sert a afficher du texte a l'ecran. Elle est souvent
-utilisee dans lesscripts shell pour afficher des messages ou le contenu de
-variables ex : echo "Hello, World!" -> Hello, World! */
-
+/* cmd echo sert a afficher du texte a l'ecran. Elle est souvent utilisee dans 
+les scripts shell pour afficher des messages ou le contenu de variables ex : 
+echo "Hello, World!" -> Hello, World! */
 
 /* fonction qui detecte si un arg correspond a une option -n */
-static bool check_n(char *arg)
+static bool	check_n(char *arg)
 {
-	int i;
+	int	i;
 
 	if (arg == NULL || arg[0] != '-')
 		return (false);
@@ -40,7 +39,7 @@ static bool check_n(char *arg)
 static void	write_args(char **args, int start, t_fd output_fd)
 {
 	int	i;
-	int	already_done; // savoir si un argument a deja ete ecrit
+	int	already_done;
 
 	i = start;
 	already_done = 0;
@@ -54,16 +53,16 @@ static void	write_args(char **args, int start, t_fd output_fd)
 	}
 }
 
-int ft_echo(char **args, t_fd input_fd, t_fd output_fd, char ***envp)
+int	ft_echo(char **args, t_fd input_fd, t_fd output_fd, char ***envp)
 {
-	bool    has_newline;
+	bool	has_newline;
 	int		i;
 
 	(void)input_fd;
 	(void)envp;
 	has_newline = true;
 	i = 0;
-	if (args[i] != NULL && check_n(args[i])) // -n supprime le saut de ligne final
+	if (args[i] != NULL && check_n(args[i]))
 	{
 		has_newline = false;
 		i++;

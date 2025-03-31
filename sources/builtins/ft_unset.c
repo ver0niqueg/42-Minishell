@@ -13,19 +13,18 @@
 #include "../../includes/minishell.h"
 
 /* fonction qui permet de supprimer des variables d'env */
-
-int ft_unset(char **args, t_fd input_fd, t_fd output_fd, char ***envp)
+int	ft_unset(char **args, t_fd input_fd, t_fd output_fd, char ***envp)
 {
-    (void)input_fd;
-    (void)output_fd;
-    while (*args != NULL)
-    {
-        if ((*args)[0] != '\0' && 1 == ft_unset_env(*envp, *args))
-        {
-            write_error_msg("minishell: unset: ", strerror(errno));
-            return (1);
-        }
-        args++;
-    }
-    return (0);
+	(void)input_fd;
+	(void)output_fd;
+	while (*args != NULL)
+	{
+		if ((*args)[0] != '\0' && 1 == ft_unset_env(*envp, *args))
+		{
+			write_error_msg("minishell: unset: ", strerror(errno));
+			return (1);
+		}
+		args++;
+	}
+	return (0);
 }

@@ -28,7 +28,7 @@ bool	is_env_key(char *env_var)
 	int	i;
 
 	i = 0;
-	if (ft_isdigit(env_var[0]) ||(ft_isalpha(env_var[0]) == 0
+	if (ft_isdigit(env_var[0]) || (ft_isalpha(env_var[0]) == 0
 			&& env_var[0] != '_'))
 		return (false);
 	while (env_var[i] != '\0')
@@ -51,7 +51,6 @@ static int	print_export_envp(char **envp, t_fd output_fd)
 	return_code = 0;
 	while (*envp)
 	{
-		// calcul de longueur de la clef et de la valeur
 		key_len = ft_strchr(*envp, '=') - *envp;
 		value_len = *envp + ft_strlen(*envp) - (ft_strchr(*envp, '=') + 1);
 		// affichage de la variable d'env dans le format declare -x
@@ -60,12 +59,12 @@ static int	print_export_envp(char **envp, t_fd output_fd)
 		write(output_fd, "=\"", 2);
 		write(output_fd, *envp + key_len + 1, value_len);
 		write(output_fd, "\"\n", 2);
-		// gestion des erreurs de write
 		if (errno != 0)
 		{
-			write_error_msg("minishell: export: write error: ", strerror(errno));
+			write_error_msg("minishell: export: write error: ",
+				strerror(errno));
 			return_code = 1;
-			break;
+			break ;
 		}
 		envp++;
 	}
@@ -76,7 +75,7 @@ static int	print_export_envp(char **envp, t_fd output_fd)
 variable d'env eistante dans un tableau d'env */
 int	add_env_var(char **args, char ***envp)
 {
-	int return_code;
+	int	return_code;
 
 	return_code = 0;
 	// separation de la cle de la valeur args = KEY=VALUE
@@ -107,12 +106,12 @@ int	ft_export(char **args, t_fd input_fd, t_fd output_fd, char ***envp)
 	int	return_code;
 
 	(void)input_fd;
-	return_code =0;
+	return_code = 0;
 	if (*args == NULL)
 		return (print_export_envp(*envp, output_fd));
 	while (*args != NULL)
 	{
-		if (NULL != ft_strchr(*args, '=') && (*args)[0] != '=') // check de la syntaxe de l'argument
+		if (NULL != ft_strchr(*args, '=') && (*args)[0] != '=')
 			return_code = add_env_var(args, envp);
 		else if (is_env_key(*args) == false)
 		{

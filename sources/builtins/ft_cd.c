@@ -53,7 +53,7 @@ static int  change_directory(const char *path)
 {
 	if (-1 == chdir(path))
 	{
-		cd_error_msg("minishell: cd: ", strerror(errno), path);
+		cd_error_msg("minishell: cd: ", path, strerror(errno));
 		return (1);
 	}
 	return (0);

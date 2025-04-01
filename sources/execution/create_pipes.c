@@ -13,14 +13,14 @@
 #include "../../includes/minishell.h"
 
 /* fonction qui cree des pipes */
-void    create_pipes(t_pipes *p, int nb_pipes)
+void	create_pipes(t_pipes *p, int nb_pipes)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < nb_pipes)
 	{
-		if (pipe(p[i].pipefd) == -1) // creation d'un tableau de pipes
+		if (pipe(p[i].pipefd) == -1)
 		{
 			perror("pipe()");
 			free(p);
@@ -32,12 +32,11 @@ void    create_pipes(t_pipes *p, int nb_pipes)
 
 /* fonction qui gere la creation de processus enfants pour executer des cmds,
 la gestion des pipes (redirections entre processus) et la gestion des pids */
-void    launch_processes(t_minishell *minishell, int nb_pipes)
+void	launch_processes(t_minishell *minishell, int nb_pipes)
 {
-	int nb_forks;
+	int	nb_forks;
 
 	nb_forks = minishell->nb_of_cmds;
-	// on cree un processus pour chaque commande
 	if (nb_pipes > NB_MAX_OF_CMDS - 2)
 	{
 		nb_pipes = NB_MAX_OF_CMDS - 2;

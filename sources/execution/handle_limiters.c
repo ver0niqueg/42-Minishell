@@ -42,7 +42,8 @@ static char	*append_heredoc_line(const char *limiter_data, const char *line)
 		return (ft_strdup_nl(limiter_data));
 	limiter_data_len = ft_strlen(limiter_data);
 	line_len = ft_strlen(line);
-	joined_str = (char *)malloc(sizeof(char) * (limiter_data_len + line_len + 2));
+	joined_str = (char *)malloc
+		(sizeof(char) * (limiter_data_len + line_len + 2));
 	if (joined_str == NULL)
 		return (NULL);
 	ft_memcpy(joined_str, limiter_data, sizeof(char) * limiter_data_len);
@@ -53,7 +54,7 @@ static char	*append_heredoc_line(const char *limiter_data, const char *line)
 
 /* fonction qui lit les entrees de l'utilisateur ligne par ligne jusqu'a ce 
 qu'il tape le limiter (mot-clef qui marque la fin) */
-static int	read_heredoc(const char *limiter, char **data, 
+static int	read_heredoc(const char *limiter, char **data,
 	bool save_data)
 {
 	char	*line;
@@ -63,7 +64,7 @@ static int	read_heredoc(const char *limiter, char **data,
 	while (true)
 	{
 		line = readline("> ");
-		if (line == NULL) // erreur ou EOF -> Ctrl+D
+		if (line == NULL)
 			return (-1);
 		if (ft_strcmp(limiter, line) == 0)
 			break ;
@@ -80,15 +81,11 @@ static int	read_heredoc(const char *limiter, char **data,
 	return (0);
 }
 
-/* fonction qui gere les here-doc dans son ensemble
-1- collecte les donnees des heredoc pour chaque cmd dans p
-2- demande a l'utilisateur d'entrer des lignes jusqu'a ce que le limiter soit rencontre pour chaque cmd
-3- gere les erreurs en liberant la memoire si un pb survient pdt la collecte des donnees des limiteurs
-4- stocke les lignes collectees dans lim_data pour chaque cmd correspondante */
+/* fonction qui gere les here-doc dans son ensemble */
 int	handle_limiters(t_parsing *p, int nb_cmds)
 {
-	int	i; // pour parourir chaque cmd dans le tableau p
-	int	j; // pour parcourir les limiteurs associes a chaque cmd
+	int	i;
+	int	j;
 
 	i = 0;
 	while (i < nb_cmds)
@@ -97,7 +94,7 @@ int	handle_limiters(t_parsing *p, int nb_cmds)
 		while (p[i].limiter != NULL && p[i].limiter[j] != NULL)
 		{
 			if (0 != read_heredoc(p[i].limiter[j], &p[i].limiter_data,
-					p[i].limiter[j + 1] == NULL)) // appelle la fonction qui attend une entree jusqu'a ce que l'utilisateur tape un limiter egal a p[i].lim[i]
+					p[i].limiter[j + 1] == NULL))
 			{
 				free_limiters(p, nb_cmds);
 				free_parsed(p, nb_cmds);

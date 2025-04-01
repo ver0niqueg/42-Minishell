@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: viviane <viviane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vgalmich <vgalmich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 13:06:20 by vihane            #+#    #+#             */
-/*   Updated: 2025/03/28 18:06:35 by viviane          ###   ########.fr       */
+/*   Updated: 2025/04/02 00:12:08 by vgalmich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	*ft_memset(void *s, int c, size_t n)
 {
-	char	*cpy;
+	char			*cpy;
 	size_t			i;
 
 	cpy = (char *)s;

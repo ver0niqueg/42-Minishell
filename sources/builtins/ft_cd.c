@@ -38,7 +38,7 @@ static int	go_to_home_directory(const char **envp)
 		write(STDERR_FILENO, "minishell: cd: HOME is undefined\n", 33);
 		return (1);
 	}
-	if (chdir(home) == -1) // on utilise chdir pour changer le repo
+	if (chdir(home) == -1)
 	{
 		cd_error_msg("minishell: cd: ", strerror(errno), home);
 		return (1);
@@ -64,7 +64,7 @@ static int	update_pwd(char ***envp)
 
 	if (ft_get_env(*(const char ***)envp, "PWD") != NULL)
 	{
-		if (getcwd(pwd, sizeof(pwd)) == NULL) // getcwd recupere le repo actuel
+		if (getcwd(pwd, sizeof(pwd)) == NULL)
 		{
 			write_error_msg("minishell: cd: ", strerror(errno));
 			return (1);

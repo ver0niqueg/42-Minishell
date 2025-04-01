@@ -17,33 +17,29 @@ commande avec execve echoue */
 void	execve_error(char **args, t_minishell *minishell)
 {
 	char	*error_msg;
-	char	*empty; // cmd vide
-	char	*to_print; // nom de la cmd qui a echoue
-	char	*arg_copy; // copie du premier argument
+	char	*empty;
+	char	*to_print;
+	char	*arg_copy;
 
 	empty = "''";
 	arg_copy = ft_strdup(args[0]);
 	is_malloc_failed(arg_copy);
-	// cas ou la cmd est vide
 	if (arg_copy[0] == '\0')
 		to_print = empty;
 	else
 		to_print = arg_copy;
-	// check du type d'erreur
 	if (ft_strchr(to_print, '/') == NULL)
-	// si la cmd ne contient pas de /, c'est une cmd simple pas trouvee dans $PATH
 	{
 		error_msg = ft_strjoin(to_print, ": command not found");
-		(is_malloc_failed(error_msg), print_error(error_msg)); // error_msg ?
+		(is_malloc_failed(error_msg), print_error(error_msg));
 	}
-	// si la cmd contient / mais que le fichier n'existe pas
 	else
 	{
 		error_msg = ft_strjoin(to_print, ": No such file or directory");
 		(is_malloc_failed(error_msg), print_error(error_msg));
 	}
 	(free(error_msg), free(arg_copy));
-	minishell->exit_code = 127; // cmd non trouvee
+	minishell->exit_code = 127;
 	return ;
 }
 
@@ -51,9 +47,9 @@ void	execve_error(char **args, t_minishell *minishell)
 de fichier concerne */
 void	dup_error(int fd)
 {
-	if (fd >= 0) // si ouvert
-		close_fd(&fd); // alors on ferme
-	perror("dup2()"); // contient le dernier code d'erreur du systeme
+	if (fd >= 0)
+		close_fd(&fd);
+	perror("dup2()");
 	exit(EXIT_FAILURE);
 }
 
@@ -61,7 +57,7 @@ void	dup_error(int fd)
 void	fork_error(t_pipes *p, int nbr_of_cmds)
 {
 	perror("fork()");
-	close_all_pipes(p, nbr_of_cmds); // coder close_all_pipes
+	close_all_pipes(p, nbr_of_cmds);
 	free(p);
 	exit(EXIT_FAILURE);
 }

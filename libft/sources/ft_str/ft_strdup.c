@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: viviane <viviane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vgalmich <vgalmich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 13:22:26 by vihane            #+#    #+#             */
-/*   Updated: 2025/03/27 21:55:39 by viviane          ###   ########.fr       */
+/*   Updated: 2025/04/02 00:12:26 by vgalmich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char	*ft_strdup(const char *s)
 {
-	char	*cpy;
+	char		*cpy;
 	size_t		i;
 
 	i = 0;

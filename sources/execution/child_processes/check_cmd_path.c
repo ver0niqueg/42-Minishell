@@ -12,13 +12,9 @@
 
 #include "../../../includes/minishell.h"
 
-/* Ce fichier analyse et valide le chemin d'une commande en verifiant son
-existence, ses permissions et son type (fichier executable ou repertoire)
-avant son execution */
-
 /* fonction en cas d'erreur dans l'analyse de chemin */
-void	cmd_path_error(const char *msg, char *path, 
-				t_parsing *parsing_data, int nb)
+void	cmd_path_error(const char *msg, char *path,
+		t_parsing *parsing_data, int nb)
 {
 	parsing_data->err_msg = ft_strjoin(path, msg);
 	parsing_data->err_nb = nb;
@@ -30,12 +26,12 @@ void	cmd_path_error(const char *msg, char *path,
 les permissions necessaires pour y acceder */
 int	validate_file_access(t_check_path *cp, char *path, t_parsing *parsing_data)
 {
-	if (access(cp->dir_or_fil, F_OK) != 0) // check si le fichier existe
+	if (access(cp->dir_or_fil, F_OK) != 0)
 		return (cmd_path_error(": No such file or directory",
-				path, parsing_data, 127), 1); // 127 : code d'erreur pour commande introuvable
+				path, parsing_data, 127), 1);
 	if (access(cp->dir_or_fil, F_OK) == 0
-			&& (access(cp->dir_or_fil, R_OK) != 0 // si on ne peut pas le lire
-				|| access(cp->dir_or_fil, X_OK) != 0)) // si on ne peut pas l'executer
+		&& (access(cp->dir_or_fil, R_OK) != 0
+			|| access(cp->dir_or_fil, X_OK) != 0))
 		return (cmd_path_error(": Permission denied",
 				path, parsing_data, 126), 1);
 	return (0);
@@ -43,54 +39,54 @@ int	validate_file_access(t_check_path *cp, char *path, t_parsing *parsing_data)
 
 /* fonction qui fait la même chose que la precedente mais check en plus si
 il s'agit d'un fichier executable ou d'un repertoire  */
-int	analyze_path_and_perms(t_check_path *cp, 
+int	analyze_path_and_perms(t_check_path *cp,
 			char *path, t_parsing *parsing_data)
 {
 	if (access(cp->dir_or_fil, F_OK) == 0
-		&& stat(cp->dir_or_fil, &cp->sb) == 0) // recup les infos sur le fichier (type, acces, permissions) et les stocke dans sb
+		&& stat(cp->dir_or_fil, &cp->sb) == 0)
 	{
-		if (S_ISDIR(cp->sb.st_mode)) // si c'est un repertoire
+		if (S_ISDIR(cp->sb.st_mode))
 		{
-			if (last_word(cp->first, cp->last)) // check si le dernier mot est un repertoire -> ex : /bin/ls YES /bin/ls/ NO
+			if (last_word(cp->first, cp->last))
 				return (cmd_path_error(": Is a directory",
-						path, parsing_data, 126), 1); // 126 : code d'erreur pour permission refusee car ce n'est pas une cmd
+						path, parsing_data, 126), 1);
 		}
-		else if (S_ISREG(cp->sb.st_mode)) // si c'est un fichier regulier
+		else if (S_ISREG(cp->sb.st_mode))
 			if (!last_word(cp->first, cp->last)
 				|| (last_word(cp->first, cp->last)
 					&& path[cp->last] == '/'))
-				// erreur : ce n'est pas un repertoire, mais il y a une erreur de type de fichier
 				return (cmd_path_error(": Not a directory",
 						path, parsing_data, 126), 1);
 	}
-	return (validate_file_access(cp, path, parsing_data)); // check si le fichier est accessible (lecture + execution)
+	return (validate_file_access(cp, path, parsing_data));
 }
 
 /* fonction qui analyse et valide chaque composant d'un chemin de fichier
-ou de repertoire dans une chaine, en checkant son existence et ses permissions */
+ou de repertoire dans une chaine, en checkant son existence et ses permissions,
+etape necessaire avant l'execution des cmds */
 void	validate_cmd_path(char *path, t_parsing *parsing_data)
 {
-	t_check_path    cp; // structure pour stocker les informations sur le chemin
-	int             return_value; // indicateur de retour pour determiner si une erreur a eu lieu ou pas
-	int             end; // la longueur de la chaine path
+	t_check_path	cp;
+	int				return_value;
+	int				end;
 
-	return_value = 0; // indique aucune erreur
+	return_value = 0;
 	end = (int)ft_strlen(path);
-	put_cursors(path, end, &cp.first, &cp.last); // defini deux pointeurs dans la structures cp -> delimite les parties du chemin
-	if (count_chars(path, '/') > 0) // compte le nb de /
+	put_cursors(path, end, &cp.first, &cp.last);
+	if (count_chars(path, '/') > 0)
 	{
 		while (cp.last <= end && path[cp.last]
 			&& return_value == 0)
 		{
-			next_dir(path, &cp.last, end); // deplace le curseur a la prochaine position de /
-			if (cp.last > end) // si depasse la fin de chaine, alors on reajuste
+			next_dir(path, &cp.last, end);
+			if (cp.last > end)
 				cp.last = end;
-			if (cp.last <= end) // si la position du curseur est valide
+			if (cp.last <= end)
 			{
-				cp.dir_or_fil = ft_substr(path, 0, cp.last); // cela extrait un repertoire ou un fichier du chemin
+				cp.dir_or_fil = ft_substr(path, 0, cp.last);
 				is_malloc_failed(cp.dir_or_fil);
-				return_value = analyze_path_and_perms(&cp, path, parsing_data); // analyse cette sous chaine extraite pour valider son chemin
-				free(cp.dir_or_fil); // libere la memoire allouee pour la sous chaine apres analyse
+				return_value = analyze_path_and_perms(&cp, path, parsing_data);
+				free(cp.dir_or_fil);
 			}
 		}
 	}

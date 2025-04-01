@@ -49,64 +49,60 @@ void	handle_sigint(int sig)
 }
 
 /*Boucle infini qui lit les commandes, les analyse et les exécute*/
-void write_prompt(t_minishell *minishell)
+void	write_prompt(t_minishell *minishell)
 {
-    char *prompt;
+	char	*prompt;
 
-    while (true)
-    {
-        prompt = readline("Cuties$ ");
-        if (!prompt)
-            return ;
-        else if (prompt[0] == '\0' || ft_empty_line(prompt))
-        {
-            free(prompt);
-            continue ;
-        }
-        else if (ft_strlen(prompt) > 0)
-        {
-            understand_line(prompt, minishell);
-            if (minishell->parsed[0].err_nb == 2)
-                print_error(minishell->parsed[0].err_msg);
-            (add_history(prompt), free(prompt));
-            if (0 != handle_limiters(minishell->parsed, minishell->nb_of_cmds))
-                continue ;
-            launch_processes(minishell, minishell->nb_of_cmds - 1);
-            free_parsed(minishell->parsed, minishell->nb_of_cmds);
-        }
-    }
-    rl_clear_history();
+	while (true)
+	{
+		prompt = readline("Cuties$ ");
+		if (!prompt)
+			return ;
+		else if (prompt[0] == '\0' || ft_empty_line(prompt))
+		{
+			free(prompt);
+			continue ;
+		}
+		else if (ft_strlen(prompt) > 0)
+		{
+			understand_line(prompt, minishell);
+			if (minishell->parsed[0].err_nb == 2)
+				print_error(minishell->parsed[0].err_msg);
+			(add_history(prompt), free(prompt));
+			if (0 != handle_limiters(minishell->parsed, minishell->nb_of_cmds))
+				continue ;
+			launch_processes(minishell, minishell->nb_of_cmds - 1);
+			free_parsed(minishell->parsed, minishell->nb_of_cmds);
+		}
+	}
+	rl_clear_history();
 }
 
-int main(int argc, char **argv, char **envp)
+int	main(int argc, char **argv, char **envp)
 {
-    t_minishell minishell;
-	struct sigaction sa;
-	struct sigaction saq;
+	t_minishell			minishell;
+	struct sigaction	sa;
+	struct sigaction	saq;
 
 	(void)argv;
-    if (argc != 1)
+	if (argc != 1)
 	{
-        printf("Error, no arguments needed\n");
+		printf("Error, no arguments needed\n");
 		exit(EXIT_FAILURE);
 	}
-    // 1- gestion du signal Ctrl+C (SIGINT) -> empeche de quitter le shell
-	sa.sa_handler = &handle_sigint; // definit handle_sigint comme fonction de gestion du signal SIGINT (Ctrl+C)
-	sa.sa_flags = SA_RESTART; // redemare les appels systeme interrompus au lieu de les stopper
+	sa.sa_handler = &handle_sigint;
+	sa.sa_flags = SA_RESTART;
 	(sigemptyset(&sa.sa_mask), sigaddset(&sa.sa_mask, CNTRL_C));
-	sigaction(CNTRL_C, &sa, NULL); // active le gestionnaire de signal
-	// 2- ignorer Ctrl+\ (SIGQUIT) -> pour eviter un crash
+	sigaction(CNTRL_C, &sa, NULL);
 	saq.sa_handler = SIG_IGN;
 	saq.sa_flags = SA_RESTART;
 	(sigemptyset(&saq.sa_mask), sigaddset(&saq.sa_mask, CNTRL_B_SLASH));
-	// 3- duplication de l'env -> pour une gestion propre
 	sigaction(CNTRL_B_SLASH, &saq, NULL);
 	minishell.envp = copy_envp(envp);
 	if (minishell.envp == NULL)
 		return (EXIT_FAILURE);
 	minishell.exit_code = 0;
-	// 4- lance l'invite prompt -> pour executer les cmds
-    write_prompt(&minishell);
-    free_split(minishell.envp);
-    return (EXIT_SUCCESS);
+	write_prompt(&minishell);
+	free_split(minishell.envp);
+	return (EXIT_SUCCESS);
 }

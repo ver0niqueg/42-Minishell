@@ -53,7 +53,6 @@ static int	print_export_envp(char **envp, t_fd output_fd)
 	{
 		key_len = ft_strchr(*envp, '=') - *envp;
 		value_len = *envp + ft_strlen(*envp) - (ft_strchr(*envp, '=') + 1);
-		// affichage de la variable d'env dans le format declare -x
 		write(output_fd, "declare -x", 11);
 		write(output_fd, *envp, key_len);
 		write(output_fd, "=\"", 2);
@@ -78,21 +77,17 @@ int	add_env_var(char **args, char ***envp)
 	int	return_code;
 
 	return_code = 0;
-	// separation de la cle de la valeur args = KEY=VALUE
 	(*args)[ft_strchr(*args, '=') - *args] = '\0';
-	// check si la clef est valide
 	if (is_env_key(*args) == true)
 	{
-		// maj ou ajout de variable d'env
 		if (ft_set_env(envp, *args,
 				*args + ft_strlen(*args) + 1, 1) == -1)
 		{
-			// gestion des erreurs
 			(*args)[ft_strlen(*args)] = '=';
 			return (write_error_msg("minishell: export: ", strerror(errno)), 1);
 		}
 	}
-	else // cas ou la clef n'est pas valide
+	else
 		(export_write_error("minishell: export: ",
 				*args, ": not a valid identifier"), return_code = 1);
 	(*args)[ft_strlen(*args)] = '=';

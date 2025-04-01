@@ -13,9 +13,9 @@
 #include "../../includes/minishell.h"
 
 /* fonction qui permet de determiner si la commande est un builtin */
-bool    is_builtin(const char *cmd)
+bool	is_builtin(const char *cmd)
 {
-	const char  *builtins[] = \
+	const char	*builtins[] = \
 	{
 		"cd",
 		"echo",
@@ -25,8 +25,8 @@ bool    is_builtin(const char *cmd)
 		"pwd",
 		"unset",
 	};
-	size_t  nb_builtins;
-	size_t  i;
+	size_t		nb_builtins;
+	size_t		i;
 
 	nb_builtins = sizeof(builtins) / sizeof(*builtins);
 	i = 0;
@@ -41,10 +41,10 @@ bool    is_builtin(const char *cmd)
 
 /* fonction qui gere l'execution d'un builtin qui n'a pas besoin de
 l'utilisation de fork = de processus enfant */
-int exec_builtin(char **argv, t_fd input_fd, t_fd output_fd, char ***envp)
+int	exec_builtin(char **argv, t_fd input_fd, t_fd output_fd, char ***envp)
 {
-	int result;
-	
+	int	result;
+
 	result = 0;
 	errno = 0;
 	if (ft_strcmp(argv[0], "cd") == 0)

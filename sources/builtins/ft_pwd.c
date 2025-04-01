@@ -16,11 +16,11 @@
 travail actuel */
 int	ft_pwd(char **args, t_fd input_fd, t_fd output_fd, char ***envp)
 {
-	char	pwd[4096]; // tableau qui stock le chemin du repo courant
+	char	pwd[4096];
+
 	(void)args;
 	(void)input_fd;
 	(void)envp;
-	// recuperation du repertoire actuel
 	if (getcwd(pwd, sizeof(pwd)) == NULL)
 	{
 		write_error_msg("minishell: pwd: ", strerror(errno));

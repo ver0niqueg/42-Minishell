@@ -62,16 +62,12 @@ int	ft_exit(char **args, t_fd input_fd, t_fd output_fd, char ***envp)
 
 	(void)envp;
 	nb_args = 0;
-	// on compte les arguments
 	while (args[nb_args] != NULL)
 		nb_args++;
-	// affichage de exit\n si output_fd est un terminal
-	if (1 == isatty(output_fd)) // check si output_fd est un terminal interactif
+	if (1 == isatty(output_fd))
 		write(output_fd, "exit\n", 5);
-	// si aucun argument n'est fourni
 	if (nb_args == 0)
 		close_fds_and_exit(input_fd, output_fd, EXIT_SUCCESS);
-	// si l'argument est un nb valide
 	if (is_valid_int(args[0]) == true)
 	{
 		if (nb_args > 1)
@@ -81,7 +77,7 @@ int	ft_exit(char **args, t_fd input_fd, t_fd output_fd, char ***envp)
 		}
 		close_fds_and_exit(input_fd, output_fd, ft_atoi(args[0]));
 	}
-	else // cas ou l'argument n'est pas un nb
+	else
 		(cd_write_error("minishell: exit: ",
 				args[0], ": numeric argument required"),
 			close_fds_and_exit(input_fd, output_fd, 2));

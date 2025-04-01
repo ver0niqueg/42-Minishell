@@ -29,7 +29,7 @@ int	ft_env(char **args, t_fd input_fd, t_fd output_fd, char ***envp)
 	if (errno != 0)
 	{
 		write_error_msg("minishell: env: write error:", strerror(errno));
-		return (125); // erreur d'ecriture
+		return (125);
 	}
 	return (0);
 }

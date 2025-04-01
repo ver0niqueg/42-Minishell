@@ -46,8 +46,8 @@ static void	write_args(char **args, int start, t_fd output_fd)
 	while (args[i] != NULL)
 	{
 		if (already_done == 1)
-			write(output_fd, " ", 1); // on ajoute un espace pour le suivant
-		write(output_fd, args[i], ft_strlen(args[i])); // si pas encore ecrit
+			write(output_fd, " ", 1);
+		write(output_fd, args[i], ft_strlen(args[i]));
 		already_done = 1;
 		i++;
 	}
@@ -67,11 +67,10 @@ int	ft_echo(char **args, t_fd input_fd, t_fd output_fd, char ***envp)
 		has_newline = false;
 		i++;
 	}
-	// affichage des arguments
 	write_args(args, i, output_fd);
 	if (has_newline == true)
 		write(output_fd, "\n", 1);
-	if (errno != 0) // variable qui contient le code d'erreur si write() echoue
+	if (errno != 0)
 	{
 		write_error_msg("minishell: echo: write error: ", strerror(errno));
 		return (1);

@@ -99,7 +99,7 @@ void	handle_cmd_exec(int i, t_minishell *minishell, t_pipes *pipes,
 	fd_in = set_input_redirs(i, minishell, pipes, pids);
 	fd_out = set_output_redirs(i, minishell, pipes, pids);
 	if (cmd_null(i, minishell))
-		close_fds_and_exit(fd_in, fd_out, EXIT_SUCCESS);
+		close_fds_and_exit(fd_in, fd_out, EXIT_SUCCESS, minishell);
 	if (minishell->parsed[i].cmd != NULL)
 		validate_cmd_path(minishell->parsed[i].cmd[0], &minishell->parsed[i]);
 	if (minishell->parsed[i].err_nb != 0)
@@ -109,7 +109,7 @@ void	handle_cmd_exec(int i, t_minishell *minishell, t_pipes *pipes,
 		if (is_builtin(minishell->parsed[i].cmd[0]))
 			close_fds_and_exit(fd_in, fd_out,
 				exec_builtin(minishell->parsed[i].cmd,
-					-1, fd_out, minishell));
+					-1, fd_out, minishell), minishell);
 		else
 			exec_cmd(i, minishell, pipes, pids);
 	}

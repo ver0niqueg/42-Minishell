@@ -49,11 +49,24 @@ static bool	is_valid_int(const char *str)
 void	close_fds_and_exit(t_fd input_fd, t_fd output_fd, int return_code,
 		t_minishell *minishell)
 {
-	free_split(minishell->envp);
-	free(minishell->pipes);
-	free(minishell->pids);
-	free_split(minishell->parsed->cmd);
-	free(minishell->parsed);
+	if (minishell->envp)
+		free_split(minishell->envp);
+	if (minishell->parsed)
+    {
+        if (minishell->parsed->exit)
+        {
+            free(minishell->parsed->exit);
+            minishell->parsed->exit = NULL;
+        }
+		if (minishell->parsed->cmd)
+			free_split(minishell->parsed->cmd);
+		free(minishell->parsed);
+		minishell->parsed = NULL;
+	}
+	if (minishell->pipes)
+		free(minishell->pipes);
+	if (minishell->pids)
+		free(minishell->pids);
 	if (can_close_fd(input_fd))
 		close(input_fd);
 	if (can_close_fd(output_fd))

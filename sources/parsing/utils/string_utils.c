@@ -57,9 +57,11 @@ void	add_str(char ***src_str, char *new_str, int *len)
 
 char	*ft_substring(char *line, unsigned int end, char **dest)
 {
-	if (dest != NULL)
+	if (dest && *dest)
+	{
 		free(*dest);
-	*dest = NULL;
+		*dest = NULL;
+	}
 	*dest = ft_strndup(line, end + 1);
 	is_malloc_failed(*dest);
 	return (*dest);

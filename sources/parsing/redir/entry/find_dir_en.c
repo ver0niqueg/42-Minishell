@@ -30,6 +30,6 @@ void	next_dir(char *exp, int *last, int end)
 		(*last)++;
 	if (exp[*last])
 		(*last)++;
-	while (*last <= end && exp[*last] != '/' )
+	while (*last <= end && exp[*last] != '/')
 		(*last)++;
 }

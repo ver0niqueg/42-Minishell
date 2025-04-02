@@ -12,7 +12,7 @@
 
 #include "../../../../includes/minishell.h"
 
-/*Permet de vérifier si dans le cas où un fichier existe, 
+/*Permet de vérifier si dans le cas où un fichier existe,
 si il est lisible*/
 int	not_readable(char **exp, t_parsing *parsed)
 {
@@ -20,8 +20,7 @@ int	not_readable(char **exp, t_parsing *parsed)
 	{
 		if (access(*exp, R_OK) == -1)
 		{
-			parsed->err_msg = ft_strjoin(*exp,
-					": Permission denied");
+			parsed->err_msg = ft_strjoin(*exp, ": Permission denied");
 			is_malloc_failed(parsed->err_msg);
 			free(*exp);
 			parsed->err_nb = 1;
@@ -39,27 +38,27 @@ Ex : /usr/local/bin bin est un fichier alor bin : Not a directory */
 int	a_file(int end, char *exp, t_parsing *parsed, t_check_path *cp)
 {
 	if (S_ISREG(cp->sb.st_mode))
-		if (!last_word(cp->first, cp->last)
-			|| (last_word(cp->first, cp->last) && exp[end] == '/'))
+		if (!last_word(cp->first, cp->last) || (last_word(cp->first, cp->last)
+				&& exp[end] == '/'))
 			return (found_error(parsed, exp, cp->dir_or_fil,
 					": Not a directory"), 1);
 	return (0);
 }
 
-/*Permet de détécter l'erreur et d'afficher les messages d'erreurs relatifs au type
-de permissions refusées.*/
+/*Permet de détécter l'erreur et d'afficher les messages d'erreurs relatifs 
+au type de permissions refusées.*/
 int	cannot_open(char *exp, t_parsing *parsed, t_check_path *cp)
 {
 	if (access(exp, F_OK) == 0)
-		return (found_error(parsed, exp, cp->dir_or_fil,
-				": Permission denied"), 1);
+		return (found_error(parsed, exp, cp->dir_or_fil, ": Permission denied"),
+			1);
 	else
 		return (found_error(parsed, exp, cp->dir_or_fil,
 				": No such file or directory"), 1);
 	return (0);
 }
 
-/*Permet de vérifier si le chemin d'entrée est valide en testant 
+/*Permet de vérifier si le chemin d'entrée est valide en testant
 chaque sous répertoire.
 Elle détecte les dossiers illisibles et les fichiers à la place de dossiers.
 Elle découpe le chemin en segments, vérifie les autorisations
@@ -77,8 +76,8 @@ int	path_error_en(char *exp, t_parsing *parsed)
 		next_dir(exp, &cp.last, end);
 		cp.dir_or_fil = ft_substr(exp, 0, cp.last);
 		is_malloc_failed(cp.dir_or_fil);
-		if (access(cp.dir_or_fil, R_OK) == 0
-			&& stat(cp.dir_or_fil, &cp.sb) == 0)
+		if (access(cp.dir_or_fil, R_OK) == 0 && stat(cp.dir_or_fil,
+				&cp.sb) == 0)
 		{
 			if (a_file(end, exp, parsed, &cp))
 				return (1);
@@ -92,4 +91,3 @@ int	path_error_en(char *exp, t_parsing *parsed)
 	}
 	return (0);
 }
-

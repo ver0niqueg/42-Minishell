@@ -12,8 +12,8 @@
 
 #include "../../../../includes/minishell.h"
 
-/*Permet de detecter les redirections ambigués, dans le cas ou 
-une variable utilisé dans une redirection n'est pas définie ou 
+/*Permet de detecter les redirections ambigués, dans le cas ou
+une variable utilisé dans une redirection n'est pas définie ou
 s'étend en une chaine vide ou multiple*/
 int	amb_redir(char *src, char *expanded, t_parsing *parsed)
 {
@@ -39,7 +39,7 @@ void	path_without_pts(char **no_points, char *exp, int end)
 	is_malloc_failed((*no_points));
 }
 
-/*Permet de vérifier si un chemin donné pour une redirection 
+/*Permet de vérifier si un chemin donné pour une redirection
 correspond à un répertoit au lieu d'un fichier. Ce qui serait faux.
 exp est le chemin à vérifier, en est l'index à la fin du chemin.
 On ignore le point, on va ensuite vérifier si il n'y a aps trop de
@@ -61,8 +61,8 @@ int	always_a_dir(char *exp, int end, t_parsing *parsed)
 		while ((end - 1 >= 0) && exp[end] == '/')
 			end--;
 		path_without_pts(&no_points, exp + points, end - points);
-		if (count_chars(no_points, '.') == 0
-			&& count_chars(no_points, '/') == 0)
+		if (count_chars(no_points, '.') == 0 && count_chars(no_points,
+				'/') == 0)
 		{
 			parsed->err_msg = ft_strjoin(exp, ": Is a directory");
 			(is_malloc_failed(no_points), parsed->err_nb = 1);
@@ -74,13 +74,13 @@ int	always_a_dir(char *exp, int end, t_parsing *parsed)
 	return (0);
 }
 
-/*Permet de vérifier si un fichier de sortie est valide pour une redirection > ou >>
-et gère deux cas. Si c'est un dossier = erreur, si le fichier est régulier
-ou spécial on fera une ouverture sécurisée.
+/*Permet de vérifier si un fichier de sortie est valide pour une 
+redirection > ou >> et gère deux cas. Si c'est un dossier = erreur, 
+si le fichier est régulier ou spécial on fera une ouverture sécurisée.
 exp = chemin du fichier.
 sb = info sur le fichier.
-si fd = 1 c'est le mode ajout donc on va ajouter sinon il est égal à 0 est donc c'est
-le mode erase est donc on va erased*/
+si fd = 1 c'est le mode ajout donc on va ajouter sinon il est égal à 0 
+est donc c'est le mode erase est donc on va erased*/
 int	bad_redir_gd_file(char *exp, t_parsing *parsed, struct stat sb)
 {
 	int	fd;
@@ -127,18 +127,16 @@ int	path_error_ex(int end_of_path, char *exp, t_parsing *parsed)
 		{
 			cp.dir_or_fil = ft_substr(exp, 0, cp.last);
 			is_malloc_failed(cp.dir_or_fil);
-			if (access(cp.dir_or_fil, W_OK) == 0
-				&& stat(cp.dir_or_fil, &cp.sb) == 0)
+			if (access(cp.dir_or_fil, W_OK) == 0 && stat(cp.dir_or_fil,
+					&cp.sb) == 0)
 			{
 				if (wrong_data_type(&cp, parsed, exp, end_of_path))
 					return (1);
 			}
-			else
-				if (not_writable(&cp, parsed, exp, end_of_path))
-					return (1);
+			else if (not_writable(&cp, parsed, exp, end_of_path))
+				return (1);
 			free(cp.dir_or_fil);
 		}
 	}
 	return (0);
 }
-

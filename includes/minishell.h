@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: viviane <viviane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vihane <vihane@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 12:21:08 by viviane           #+#    #+#             */
-/*   Updated: 2025/04/02 00:43:23 by viviane          ###   ########.fr       */
+/*   Updated: 2025/04/02 19:43:14 by vihane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -243,15 +243,18 @@ int		ft_cd(char **args, t_fd input_fd, t_fd output_fd, char ***envp);
 int		ft_echo(char **args, t_fd input_fd, t_fd output_fd, char ***envp);
 int		ft_env(char **args, t_fd input_fd, t_fd output_fd, char ***envp);
 void	cd_write_error(const char *s1, const char *s2, const char *s3);
-void	close_fds_and_exit(t_fd input_fd, t_fd output_fd, int return_code);
-int		ft_exit(char **args, t_fd input_fd, t_fd output_fd, char ***envp);
+void	close_fds_and_exit(t_fd input_fd, t_fd output_fd, int return_code,
+			t_minishell *minishell);
+int		ft_exit(char **args, t_fd input_fd, t_fd output_fd,
+			t_minishell *minishell);
 int		ft_export(char **args, t_fd input_fd, t_fd output_fd, char ***envp);
 int		ft_pwd(char **args, t_fd input_fd, t_fd output_fd, char ***envp);
 int		ft_unset(char **args, t_fd input_fd, t_fd output_fd, char ***envp);
 
 // exec_builtins
 bool	is_builtin(const char *cmd);
-int		exec_builtin(char **argv, t_fd input_fd, t_fd output_fd, char ***envp);
+int		exec_builtin(char **argv, t_fd input_fd, t_fd output_fd,
+			t_minishell *minishell);
 
 /***** CHILD PROCESSES ******/
 

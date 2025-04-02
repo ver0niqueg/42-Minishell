@@ -12,71 +12,72 @@
 
 #include "../../../includes/minishell.h"
 
-int if_pipe_first(char *line, t_parsing *parsed)
+int	if_pipe_first(char *line, t_parsing *parsed)
 {
-    int i;
+	int	i;
 
-    i = 0;
-    while (line[i] && line[i] == ' ')
-        i++;
-    if (line[i] == '|')
-    {
-        parsed->err_msg = ft_strjoin("", "Syntax error near unexpected token '|'");
-        parsed->err_nb = 2;
-        return (1);
-    }
-    return (0);
+	i = 0;
+	while (line[i] && line[i] == ' ')
+		i++;
+	if (line[i] == '|')
+	{
+		parsed->err_msg = ft_strjoin("",
+				"Syntax error near unexpected token '|'");
+		parsed->err_nb = 2;
+		return (1);
+	}
+	return (0);
 }
 
-void    ft_skip_spaces(int *i, char *line)
+void	ft_skip_spaces(int *i, char *line)
 {
-    while (line[(*i)] && line[(*i)] == ' ')
-        (*i)++;
+	while (line[(*i)] && line[(*i)] == ' ')
+		(*i)++;
 }
 
-int ft_empty_line(char *line)
+int	ft_empty_line(char *line)
 {
-    int i;
-    int count;
+	int	i;
+	int	count;
 
-    i = -1;
-    count = 0;
-    if (line == NULL)
-        return (1);
-    while (line[++i] != '\0')
-        if (!(line[i] >= 9 && line[i] <= 13) && line[i] != ' ')
-            count++;
-    if (count == 0)
-        return (1);
-    return (0);
+	i = -1;
+	count = 0;
+	if (line == NULL)
+		return (1);
+	while (line[++i] != '\0')
+		if (!(line[i] >= 9 && line[i] <= 13) && line[i] != ' ')
+			count++;
+	if (count == 0)
+		return (1);
+	return (0);
 }
 
-/*Cette fonction compte le nombre d'occurrence d'un caractère dans la ligne
-de commande en ignorant les caractères entre guillemets. Ex si le pipe se trouve
-entre guillemet il ne sera pas pris en compte car il fait partie d'une seule et même
-commande.*/
-int count_chars(char *line, char c)
+/*Cette fonction compte le nombre d'occurrence d'un caractère
+dans la ligne de commande en ignorant les caractères entre guillemets.
+Ex si le pipe se trouve entre guillemet il ne sera pas pris en compte
+car il fait partie d'une seule et même commande.*/
+int	count_chars(char *line, char c)
 {
-    int i;
-    int count;
-    char quote;
+	char	quote;
+	int		i;
+	int		count;
 
-    i = 0;
-    count = 0;
-    if (line == NULL || line[0] == '\0')
-        return (0);
-    while (i < (int)ft_strlen(line))
-    {
-        if (line[i] == '\'' || line[i] == '"')
-        {
-            quote = line[i];
-            i++; //saute le guillemet ouvrant
-            while (line[i] && line[i] != quote)
-                i++;
-        }
-        if (line[i] && line[i] == c)
-            count++;
-        i++;
-    }
-    return (count);
+	i = 0;
+	count = 0;
+	if (line == NULL || line[0] == '\0')
+		return (0);
+	while (i < (int)ft_strlen(line))
+	{
+		if (line[i] == '\'' || line[i] == '"')
+		{
+			quote = line[i];
+			i++;
+			while (line[i] && line[i] != quote)
+				i++;
+		}
+		if (line[i] && line[i] == c)
+			count++;
+		i++;
+	}
+	return (count);
 }

@@ -12,13 +12,12 @@
 
 #include "../../../includes/minishell.h"
 
-/*Ces fonctions permettent d'analyser des caracteres specifiques dans une ligne de 
-commande et de signaler des erreurs de syntaxes selon le besoin.
-Chacune de ces fonctions initialisent (= '\0')trois variable, first(i), second(i + 1), 
-third (i + 2), qui stockent les caracteres specifiques a analyser.
-Ces trois char sont passes a syntax_err_msg qui renvoie le message d'erreur 
+/*Ces fonctions permettent d'analyser des caracteres specifiques dans
+une ligne de commande et de signaler des erreurs de syntaxes selon le besoin.
+Chacune de ces fonctions initialisent (= '\0')trois variable, first(i),
+second(i+ 1), third (i + 2), qui stockent les caracteres specifiques a analyser.
+Ces trois char sont passes a syntax_err_msg qui renvoie le message d'erreur
 correspondant ou la traitement a adopter*/
-
 /*Cette fonction traite le caractere | dans la ligne de commande.
 Elle verifie si le caractere suivant est & ou | (|& ou ||).
 Et elle traite le caractere via syntax_error_msg*/
@@ -37,7 +36,8 @@ void	before_pipe(t_parsing *parsed, char *line, int i)
 	syntax_err_msg(parsed, first, second, third);
 }
 
-/*Cette fonction traite le caractere de redirection d'entree (<) dans la ligne de commande.
+/*Cette fonction traite le caractere de redirection d'entree (<) dans la ligne
+de commande.
 Elle verifie si le caractere suivant est un &, > ou < (<&, <>, <<).
 Elle verifie egalement le cas de <<<.
 Et elle traite cette ligne via syntax_err_msg*/

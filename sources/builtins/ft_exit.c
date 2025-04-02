@@ -2,9 +2,12 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: vgalmich <vgalmich@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
+/*                                                    +:+ +:+
+	+:+     */
+/*   By: vgalmich <vgalmich@student.42.fr>          +#+  +:+
+	+#+        */
+/*                                                +#+#+#+#+#+
+	+#+           */
 /*   Created: 2025/03/12 22:32:20 by vgalmich          #+#    #+#             */
 /*   Updated: 2025/03/12 22:32:20 by vgalmich         ###   ########.fr       */
 /*                                                                            */
@@ -23,15 +26,13 @@ void	cd_write_error(const char *s1, const char *s2, const char *s3)
 /* fonction qui garantit qu'on ne ferme que des fd ouverts dynamiquement */
 static bool	can_close_fd(int fd)
 {
-	return (fd > 1
-		&& fd != STDIN_FILENO
-		&& fd != STDOUT_FILENO
+	return (fd > 1 && fd != STDIN_FILENO && fd != STDOUT_FILENO
 		&& fd != STDERR_FILENO);
 }
 
 static bool	is_valid_int(const char *str)
 {
-	int	i;
+	int		i;
 
 	if (str[0] != '+' && str[0] != '-' && ft_isdigit(str[0]) != 1)
 		return (false);
@@ -45,8 +46,14 @@ static bool	is_valid_int(const char *str)
 	return (true);
 }
 
-void	close_fds_and_exit(t_fd input_fd, t_fd output_fd, int return_code)
+void	close_fds_and_exit(t_fd input_fd, t_fd output_fd, int return_code,
+		t_minishell *minishell)
 {
+	free_split(minishell->envp);
+	free(minishell->pipes);
+	free(minishell->pids);
+	free_split(minishell->parsed->cmd);
+	free(minishell->parsed);
 	if (can_close_fd(input_fd))
 		close(input_fd);
 	if (can_close_fd(output_fd))
@@ -56,18 +63,17 @@ void	close_fds_and_exit(t_fd input_fd, t_fd output_fd, int return_code)
 
 /* fonction qui permet de terminer le programme en cours avec un code de
 retour specifique */
-int	ft_exit(char **args, t_fd input_fd, t_fd output_fd, char ***envp)
+int	ft_exit(char **args, t_fd input_fd, t_fd output_fd, t_minishell *minishell)
 {
 	int	nb_args;
 
-	(void)envp;
 	nb_args = 0;
 	while (args[nb_args] != NULL)
 		nb_args++;
 	if (1 == isatty(output_fd))
 		write(output_fd, "exit\n", 5);
 	if (nb_args == 0)
-		close_fds_and_exit(input_fd, output_fd, EXIT_SUCCESS);
+		close_fds_and_exit(input_fd, output_fd, EXIT_SUCCESS, minishell);
 	if (is_valid_int(args[0]) == true)
 	{
 		if (nb_args > 1)
@@ -75,12 +81,12 @@ int	ft_exit(char **args, t_fd input_fd, t_fd output_fd, char ***envp)
 			write(STDERR_FILENO, "minishell: exit: too many arguments\n", 36);
 			return (1);
 		}
-		close_fds_and_exit(input_fd, output_fd, ft_atoi(args[0]));
+		close_fds_and_exit(input_fd, output_fd, ft_atoi(args[0]), minishell);
 	}
 	else
-		(cd_write_error("minishell: exit: ",
-				args[0], ": numeric argument required"),
-			close_fds_and_exit(input_fd, output_fd, 2));
-	close_fds_and_exit(input_fd, output_fd, EXIT_SUCCESS);
+		(cd_write_error("minishell: exit: ", args[0],
+				": numeric argument required"), close_fds_and_exit(input_fd,
+				output_fd, 2, minishell));
+	close_fds_and_exit(input_fd, output_fd, EXIT_SUCCESS, minishell);
 	return (0);
 }

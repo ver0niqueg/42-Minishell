@@ -109,7 +109,7 @@ void	handle_cmd_exec(int i, t_minishell *minishell, t_pipes *pipes,
 		if (is_builtin(minishell->parsed[i].cmd[0]))
 			close_fds_and_exit(fd_in, fd_out,
 				exec_builtin(minishell->parsed[i].cmd,
-					-1, fd_out, &minishell->envp));
+					-1, fd_out, minishell));
 		else
 			exec_cmd(i, minishell, pipes, pids);
 	}

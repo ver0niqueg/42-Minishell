@@ -31,7 +31,7 @@ void	exec_one_builtin(t_minishell *minishell, int *builtin)
 			(print_error("Open error for the only builtin\n"));
 	}
 	minishell->exit_code = exec_builtin(minishell->parsed[0].cmd,
-			-1, fd_out, &minishell->envp);
+			-1, fd_out, minishell);
 	if (fd_out > STDERR_FILENO)
 		close_fd(&fd_out);
 	*builtin = 1;

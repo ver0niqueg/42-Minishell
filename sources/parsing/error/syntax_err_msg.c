@@ -25,15 +25,14 @@ void	also_first(char first, char *msg, t_parsing *parsed)
 	free(letters);
 }
 
-void	also_first_and_second(char first, char second, char *msg, 
-								t_parsing *parsed)
+void	also_first_and_second(char first, char second, char *msg,
+		t_parsing *parsed)
 {
 	char	*letters;
 
 	letters = (char *)malloc(sizeof(char) * 4);
 	is_malloc_failed(letters);
-	letters[0] = first
-;
+	letters[0] = first;
 	letters[1] = second;
 	letters[2] = '\'';
 	letters[3] = '\0';

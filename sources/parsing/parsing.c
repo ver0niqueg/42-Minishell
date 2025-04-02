@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: viviane <viviane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vihane <vihane@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 18:49:08 by viviane           #+#    #+#             */
-/*   Updated: 2025/04/02 01:20:35 by viviane          ###   ########.fr       */
+/*   Updated: 2025/04/02 17:57:14 by vihane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,41 +14,42 @@
 
 /*Permet détecter et de traiter les redirections dans la ligne de commande.
 Elle met a jour la struct t_parsing en fonction des redirections que l'on
-va trouver. 
+va trouver.
 Elle identifie tout d'abord le signe de redirection (< ou >).
 Elle  va ensuite sauter les espaces si elle en trouve, pour trouver le début du
 fichier ou le délimiteur, qu'elle stockera dans parsed->limiter*/
-void    handle_redir_type(t_line_info line_info, int *limiter_size,
-						t_parsing *parsed, t_minishell *minishell)
+void	handle_redir_type(t_line_info line_info, int *limiter_size,
+		t_parsing *parsed, t_minishell *minishell)
 {
-	char redir;
-	int start;
+	char	redir;
+	int		start;
 
 	redir = line_info.line[*line_info.index];
 	start = *line_info.index + 1;
 	while (line_info.line[start] == ' ')
 		start++;
 	if (redir == '<' && line_info.line[start] == redir)
-		*line_info.index = handle_heredoc(line_info.line, start, parsed, limiter_size);
+		*line_info.index = handle_heredoc(line_info.line, start, parsed,
+				limiter_size);
 	if (parsed->err_msg == NULL)
 	{
 		if (redir == '<' && line_info.line[start] != redir)
-			*line_info.index = handle_entry(line_info.line, start,
-								parsed, minishell);
+			*line_info.index = handle_entry(line_info.line, start, parsed,
+					minishell);
 		else if (redir == '>')
-			*line_info.index = handle_exit(line_info.line, *line_info.index + 1, 
-								parsed, minishell);
+			*line_info.index = handle_exit(line_info.line, *line_info.index + 1,
+					parsed, minishell);
 	}
 	return ;
 }
 
 /*Permet d'extraire une sous chaine à partir de la ligne de commande.
 Cette sous chaine prend en compte le critère émis grâce à end_of_word.*/
-char    *extract_token(char *line, int *i, t_parsing *parsed)
+char	*extract_token(char *line, int *i, t_parsing *parsed)
 {
-	int end;
-	int start;
-	char *extract_buffer;
+	int		end;
+	int		start;
+	char	*extract_buffer;
 
 	if (parsed->err_msg != NULL)
 		return (NULL);
@@ -64,11 +65,11 @@ char    *extract_token(char *line, int *i, t_parsing *parsed)
 /*Sert à ajouter la commande traité à la structure parsing, après
 avoir traité les signes (guillemets, variables), et effectué une expansion des
 variables d'envrionnements. Et on ajoute son résultat à parsed->cmd*/
-void    add_command(t_line_info line_info, int *cmd_size, t_parsing *parsed, 
-						t_minishell *minishell)
+void	add_command(t_line_info line_info, int *cmd_size, t_parsing *parsed,
+		t_minishell *minishell)
 {
-	char    *buffer;
-	
+	char	*buffer;
+
 	buffer = extract_token(line_info.line, line_info.index, parsed);
 	if (!buffer)
 		return ;
@@ -83,18 +84,18 @@ void    add_command(t_line_info line_info, int *cmd_size, t_parsing *parsed,
 	}
 }
 
-/*Elle permet d'analyser la ligne de commande syntaxiquement correcte, 
+/*Elle permet d'analyser la ligne de commande syntaxiquement correcte,
 vu que l'on a verifier la syntaxe auparavant. On stocke les resultats dans
 la struct t_parsing qui fait partie de shell comme l'indique t_minishell.
 La boucle parcourt chaque éléments de la ligne et en fonction du caractère
 rencontré, elle effectue add_command.
-Elle supprime ensuite les guillemets du contenue analysé pour nettoyer la 
+Elle supprime ensuite les guillemets du contenue analysé pour nettoyer la
 ligne.*/
-void    parsing(t_parsing *parsed, char *line, t_minishell *minishell, int init)
+void	parsing(t_parsing *parsed, char *line, t_minishell *minishell, int init)
 {
-	t_line_info  line_info;
-	int cmd_size;
-	int limiter_size;
+	t_line_info	line_info;
+	int			cmd_size;
+	int			limiter_size;
 
 	cmd_size = 1;
 	limiter_size = 1;

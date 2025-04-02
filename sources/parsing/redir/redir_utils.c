@@ -14,7 +14,7 @@
 
 void	open_file(char *exp, t_parsing *parsed)
 {
-	int		fd;
+	int	fd;
 
 	if (parsed->ex_append == 1)
 		fd = open(exp, O_WRONLY | O_CREAT | O_APPEND, 0644);
@@ -29,48 +29,48 @@ void	open_file(char *exp, t_parsing *parsed)
 de sortie (>, >>), elle vérifie si le fichier de sortie est valide
 et nettoie la mémoire en cas d'erreur.
 On sign est la position du symbole (>, >>) dans la ligne */
-void    alloc_or_free(int on_sign, char *line, t_parsing *parsed, 
-                        t_minishell *minishell)
+void	alloc_or_free(int on_sign, char *line, t_parsing *parsed,
+		t_minishell *minishell)
 {
-    if (parsed->exit != NULL && parsed->exit[0] != '\0')
-    {
-        exit_error(parsed->exit, parsed, minishell);
-        if (on_sign - 1 >= 0 && line[on_sign - 1] == '<')
-        {
-            free(parsed->exit);
-            parsed->exit = NULL;
-        }
-        else
-            expand(&(parsed->exit), minishell);
-    }
+	if (parsed->exit != NULL && parsed->exit[0] != '\0')
+	{
+		exit_error(parsed->exit, parsed, minishell);
+		if (on_sign - 1 >= 0 && line[on_sign - 1] == '<')
+		{
+			free(parsed->exit);
+			parsed->exit = NULL;
+		}
+		else
+			expand(&(parsed->exit), minishell);
+	}
 }
 
 /*Permet de gérer les variables d'envrionnement dans le cadre
 des redirections. Elle crée une copie de la chaine originale pour éviter
 de la modifier directement. Et elle remplace les VAR par leur valeur.*/
-void   define_exp(char **dest, char *src, t_minishell *minishell)
+void	define_exp(char **dest, char *src, t_minishell *minishell)
 {
-    (*dest) = ft_strdup(src);
-    is_malloc_failed(*dest);
-    expand(dest, minishell);
+	(*dest) = ft_strdup(src);
+	is_malloc_failed(*dest);
+	expand(dest, minishell);
 }
 
-void    found_error(t_parsing *parsed, char *exp, 
-                    char *dir_or_fil, const char *msg)
+void	found_error(t_parsing *parsed, char *exp, char *dir_or_fil,
+		const char *msg)
 {
-    parsed->err_msg = ft_strjoin(msg, exp);
-    is_malloc_failed(parsed->err_msg);
-    parsed->err_nb = 1;
-    free_redir(parsed);
-    if (exp != NULL)
-        free(exp);
-    if (dir_or_fil != NULL)
-        free(dir_or_fil);
+	parsed->err_msg = ft_strjoin(msg, exp);
+	is_malloc_failed(parsed->err_msg);
+	parsed->err_nb = 1;
+	free_redir(parsed);
+	if (exp != NULL)
+		free(exp);
+	if (dir_or_fil != NULL)
+		free(dir_or_fil);
 }
 
-int last_word(int first, int last)
+int	last_word(int first, int last)
 {
-    if (last > first)
-        return (1);
-    return (0); 
+	if (last > first)
+		return (1);
+	return (0);
 }

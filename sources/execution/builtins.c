@@ -2,9 +2,12 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: vgalmich <vgalmich@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
+/*                                                    +:+ +:+
+	+:+     */
+/*   By: vgalmich <vgalmich@student.42.fr>          +#+  +:+
+	+#+        */
+/*                                                +#+#+#+#+#+
+	+#+           */
 /*   Created: 2025/03/11 15:05:54 by vgalmich          #+#    #+#             */
 /*   Updated: 2025/03/11 15:05:54 by vgalmich         ###   ########.fr       */
 /*                                                                            */
@@ -15,8 +18,7 @@
 /* fonction qui permet de determiner si la commande est un builtin */
 bool	is_builtin(const char *cmd)
 {
-	const char	*builtins[] = \
-	{
+	const char	*builtins[] = {
 		"cd",
 		"echo",
 		"env",
@@ -41,25 +43,26 @@ bool	is_builtin(const char *cmd)
 
 /* fonction qui gere l'execution d'un builtin qui n'a pas besoin de
 l'utilisation de fork = de processus enfant */
-int	exec_builtin(char **argv, t_fd input_fd, t_fd output_fd, char ***envp)
+int	exec_builtin(char **argv, t_fd input_fd, t_fd output_fd,
+		t_minishell *minishell)
 {
-	int	result;
+	int		result;
 
 	result = 0;
 	errno = 0;
 	if (ft_strcmp(argv[0], "cd") == 0)
-		result = ft_cd(argv + 1, input_fd, output_fd, envp);
+		result = ft_cd(argv + 1, input_fd, output_fd, &minishell->envp);
 	else if (ft_strcmp(argv[0], "echo") == 0)
-		result = ft_echo(argv + 1, input_fd, output_fd, envp);
+		result = ft_echo(argv + 1, input_fd, output_fd, &minishell->envp);
 	else if (ft_strcmp(argv[0], "env") == 0)
-		result = ft_env(argv + 1, input_fd, output_fd, envp);
+		result = ft_env(argv + 1, input_fd, output_fd, &minishell->envp);
 	else if (ft_strcmp(argv[0], "exit") == 0)
-		result = ft_exit(argv + 1, input_fd, output_fd, envp);
+		result = ft_exit(argv + 1, input_fd, output_fd, minishell);
 	else if (ft_strcmp(argv[0], "export") == 0)
-		result = ft_export(argv + 1, input_fd, output_fd, envp);
+		result = ft_export(argv + 1, input_fd, output_fd, &minishell->envp);
 	else if (ft_strcmp(argv[0], "pwd") == 0)
-		result = ft_pwd(argv + 1, input_fd, output_fd, envp);
+		result = ft_pwd(argv + 1, input_fd, output_fd, &minishell->envp);
 	else if (ft_strcmp(argv[0], "unset") == 0)
-		result = ft_unset(argv + 1, input_fd, output_fd, envp);
+		result = ft_unset(argv + 1, input_fd, output_fd, &minishell->envp);
 	return (result);
 }

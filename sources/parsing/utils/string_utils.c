@@ -36,7 +36,7 @@ void	add_str(char ***src_str, char *new_str, int *len)
 	i = 0;
 	while ((*src_str) && (*src_str)[i])
 		i++;
-	dst_str = malloc(sizeof(char *) * (i + 1 + 1));
+	dst_str = malloc(sizeof(char *) * (i + 2));
 	if (!dst_str)
 	{
 		printf("Error, malloc failed\n");

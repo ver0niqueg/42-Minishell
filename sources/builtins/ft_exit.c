@@ -52,12 +52,12 @@ void	close_fds_and_exit(t_fd input_fd, t_fd output_fd, int return_code,
 	if (minishell->envp)
 		free_split(minishell->envp);
 	if (minishell->parsed)
-    {
-        if (minishell->parsed->exit)
-        {
-            free(minishell->parsed->exit);
-            minishell->parsed->exit = NULL;
-        }
+	{
+		if (minishell->parsed->exit)
+		{
+			free(minishell->parsed->exit);
+			minishell->parsed->exit = NULL;
+		}
 		if (minishell->parsed->cmd)
 			free_split(minishell->parsed->cmd);
 		free(minishell->parsed);

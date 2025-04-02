@@ -12,6 +12,9 @@
 
 #include "../../../includes/minishell.h"
 
+/*Permet de traiter les redirections de type heredoc (<<), elle squte tout 
+d'abord le deuxième <, et ignore les espaces si elle en trouve. 
+Elle extrait le délimiteur. et le socke dans la structure. */
 int handle_heredoc(char *line, int start, t_parsing *parsed, int *limiter_size)
 {
     int end;
@@ -36,6 +39,10 @@ int handle_heredoc(char *line, int start, t_parsing *parsed, int *limiter_size)
     return (end);
 }
 
+/*Permet de gérer les redirection simple. On nettoie l'ancienne 
+entrée si elle existe, on extrait le nom du fichier.
+On vérifie si il y a des erreurs (si le fichier existe), et si il
+y a des variables à étendre*/
 int handle_entry(char *line, int start, t_parsing *parsed, t_minishell *minishell)
 {
     int end;
@@ -57,6 +64,10 @@ int handle_entry(char *line, int start, t_parsing *parsed, t_minishell *minishel
 
 }
 
+/*Permet de gérer les redirections de sortie (>, écrase le fichier,
+>>, ajoute à la fin du fichier). Par défaut on set ex_append à 0 ce qui équivaut
+au mode écrasement et à 1 pour le mode ajout.
+alloc_or_free permet de gérer les erreurs et expansion et les permissions.*/
 int handle_exit(char *line, int start, t_parsing *parsed, t_minishell *minishell)
 {
     int end;

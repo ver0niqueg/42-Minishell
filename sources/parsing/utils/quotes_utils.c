@@ -42,7 +42,7 @@ char    *erased_str(char *str, int i, int end)
 }
 
 /*Permet de supprimer les quotes,
-j mémorise la position du quote ouvrant, 
+mémorise la position du quote ouvrant, 
 quote est le pointeur qui stocke le type de quote que l'on recontre.
 */
 char    *erase_quote(char *str)

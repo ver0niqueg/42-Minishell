@@ -6,7 +6,7 @@
 /*   By: viviane <viviane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 22:54:19 by viviane           #+#    #+#             */
-/*   Updated: 2025/03/27 21:00:29 by viviane          ###   ########.fr       */
+/*   Updated: 2025/04/02 01:47:30 by viviane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ void    delete_var(char *line, int *i, int to_dollar, int *new_len)
     (*new_len) = *i;
 }
 
+/*Permet de mettre à jour la longeur (espace mémoire )de la valeur de 
+la variable d'envrionnemennt.*/
 void    new_lenght(char *line, char *value, int *i, int *new_len)
 {
     int var_len;

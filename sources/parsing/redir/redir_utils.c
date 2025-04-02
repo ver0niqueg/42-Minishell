@@ -25,6 +25,10 @@ void	open_file(char *exp, t_parsing *parsed)
 	close(fd);
 }
 
+/*Fonction qui permet de gérer la sécurité pour les redirections
+de sortie (>, >>), elle vérifie si le fichier de sortie est valide
+et nettoie la mémoire en cas d'erreur.
+On sign est la position du symbole (>, >>) dans la ligne */
 void    alloc_or_free(int on_sign, char *line, t_parsing *parsed, 
                         t_minishell *minishell)
 {
@@ -41,6 +45,9 @@ void    alloc_or_free(int on_sign, char *line, t_parsing *parsed,
     }
 }
 
+/*Permet de gérer les variables d'envrionnement dans le cadre
+des redirections. Elle crée une copie de la chaine originale pour éviter
+de la modifier directement. Et elle remplace les VAR par leur valeur.*/
 void   define_exp(char **dest, char *src, t_minishell *minishell)
 {
     (*dest) = ft_strdup(src);

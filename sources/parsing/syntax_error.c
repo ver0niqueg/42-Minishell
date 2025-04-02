@@ -54,6 +54,9 @@ void    put_first(char first, char *err_msg, t_parsing *parsed)
     free(letter);
 }
 
+/*Fonction pour construire un message d'erreur détaillé en fonction des
+caractères fautif, et stocke le message dans parsed->err_msg et définit le
+le code d'erreur (parsed->err_nb) à 2.*/
 void    syntax_err_msg(t_parsing *parsed, char first, char second, char third)
 {
     char *msg;

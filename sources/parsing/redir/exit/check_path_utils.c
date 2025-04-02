@@ -12,6 +12,7 @@
 
 #include "../../../../includes/minishell.h"
 
+/*Permet d'initialiser la structure checkpath*/
 void	check_path_init(int *end, char *exp, t_check_path *cp)
 {
 	cp->counter = 0;
@@ -22,6 +23,10 @@ void	check_path_init(int *end, char *exp, t_check_path *cp)
 	at_last_dir(&cp->first, exp);
 }
 
+/*Permet de vérifier si un segment d'un chemin est du bon type 
+pour une redirection. Elle détecte deux erreurs : 
+un dossier alors que l'on attend un fichier;
+un fichier alors que l'on attend un dossier*/
 int	wrong_data_type(t_check_path *cp, t_parsing *parsed, char *exp, int end)
 {
 	if (S_ISDIR(cp->sb.st_mode))
@@ -34,6 +39,11 @@ int	wrong_data_type(t_check_path *cp, t_parsing *parsed, char *exp, int end)
 	return (0);
 }
 
+/*Permet de vérifier si un segment de chemin est accessible en
+écriture et détecte trois erreurs :
+permissions refusées;
+fichier inexistant;
+dossier inattendu (quand un fichier est attendu)*/
 int	not_writable(t_check_path *cp, t_parsing *parsed, char *exp, int end_of_file)
 {
 	if (access(cp->dir_or_fil, W_OK) != 0

@@ -12,6 +12,10 @@
 
 #include "../../../includes/minishell.h"
 
+/*Permet de valider un fichier d'entrée < pour une redirection
+en vérifiant les variables ambiguês, les permissions de lecture, et l'existence
+du fichier.
+entry est le chemin du fichier d'entrée*/
 void    entry_error(char *entry, t_parsing *parsed, t_minishell *minishell)
 {
     	char	*exp;
@@ -34,6 +38,19 @@ void    entry_error(char *entry, t_parsing *parsed, t_minishell *minishell)
 	return (free(exp));
 }
 
+/*Permet de vérifier si le fichier est accessible et valide.
+Elle gère les permissions refusées, les chemins invalides et les fichiers
+inexistants (avec des repertoires valides).
+Exit correspond au nom du fichier.
+Tout d'abord si exit contient une VAR on va l'expandre.
+On va gérer les quotes en les supprimant pour éviter toutes corruptions.
+On va vérifier si exit est un répertoire, si non on va bloquer le chemin.
+On va vérifier si les permission d'écriture sont OK (avec access et stat).
+Si le fichier existe et est accesible on va vérifier son type (fichier ou repo).
+On va vérifier si le chemin contient des sous répertoite inaccessibles.
+Si les permissions sont refusées, on va sortir un message d'erreur.
+Si le fichier n'existe pas = msg_err
+Si tout est bon on va ouvrir le fichier avec open_file. */
 void    exit_error(char *exit, t_parsing *parsed, t_minishell *minishell)
 {
 	char		*exp;

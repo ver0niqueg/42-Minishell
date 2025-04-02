@@ -12,6 +12,9 @@
 
 #include "../../../../includes/minishell.h"
 
+/*Ces deux fonctions fonctionnent ensemble pour naviger les segments
+d'un chemin. Elle sont utilisées pour analyser les redirections de fichiers.
+Celle-ci trouve le dernier segment du chemin avant le fichier final*/
 void	put_cursors(char *exp, int end, int *first, int *last)
 {
 	*first = end - 1;
@@ -20,6 +23,7 @@ void	put_cursors(char *exp, int end, int *first, int *last)
 	*last = 0;
 }
 
+/*Permet d'avancer jusqu'au prochain / pour isoler un segment.*/
 void	next_dir(char *exp, int *last, int end)
 {
 	while (exp[*last] == '/')

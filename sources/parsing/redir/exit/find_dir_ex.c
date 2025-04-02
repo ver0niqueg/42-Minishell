@@ -12,6 +12,7 @@
 
 #include "../../../../includes/minishell.h"
 
+/*Trouve le dernier répetertoire parent dans un chemin donné*/
 void	at_last_dir(int *first, char *exp)
 {
 	int	cpy;
@@ -25,6 +26,7 @@ void	at_last_dir(int *first, char *exp)
 	*first = cpy;
 }
 
+/*Permet de découper chaque segment du chemin avec l'exitenc des / */
 void	end_of_dir(char *exp, int *last)
 {
 	if (*last == (int)ft_strlen(exp))

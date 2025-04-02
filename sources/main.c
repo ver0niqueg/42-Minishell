@@ -44,7 +44,7 @@ void	handle_sigint(int sig)
 	(void)sig;
 	printf("\n");
 	rl_on_new_line();
-	rl_replace_line("", 0);
+	//rl_replace_line("", 0);
 	rl_redisplay();
 }
 
@@ -75,7 +75,7 @@ void	write_prompt(t_minishell *minishell)
 			free_parsed(minishell->parsed, minishell->nb_of_cmds);
 		}
 	}
-	rl_clear_history();
+	//rl_clear_history();
 }
 
 int	main(int argc, char **argv, char **envp)

@@ -12,6 +12,13 @@
 
 #include "../../../includes/minishell.h"
 
+/*Cette fonction est utilisée pour identifier et extraire des délimiteurs dans
+une ligne de commande. On va ignorer les heredoc <<, puis les espaces.
+On va ensuite gérer les cas spéciaux d'erreur de syntaxe avec < qui pourrait 
+être associé à |, <, >, et &.
+On détermine ensuite ou le délimiteur se termine (en sautant les quotes si 
+nécessaire) et on isole le délimiteur dans le buffer pour ensuite le retourner,
+pour ensuite le nettoyer grâce à add_limiter*/
 static char    *set_limiters(char *line, int *i, t_parsing *parsed)
 {
     int end;
@@ -40,6 +47,12 @@ static char    *set_limiters(char *line, int *i, t_parsing *parsed)
     return (buffer);
 }
 
+/*Fonction qui permet d'analyser la ligne de commande et de gérer les pipes,
+et de détécter les erreurs de syntaxes associées. Dans le cas ou après 
+les ESPACES on trouve un pipe, une esperluette, ou la find de la ligne. 
+Un message d'erreur s'affiche. On gère aussi le cas de si on trouve une redirection
+après le pipe | >; on va reculer i pour retomber sur la redirection et pour que 
+la fonction entries_exit puisse la gérer.*/
 static void	pipes(char *line, int *i, t_parsing *parsed)
 {
 	(*i)++;
@@ -54,6 +67,13 @@ static void	pipes(char *line, int *i, t_parsing *parsed)
 		(*i)--;
 }
 
+/*Fonction qui permet d'analyser la ligne de commande et de gérer les redirections,
+et de détécter les erreurs de syntaxes associées. Les cas traités sont (<>, 
+les redirections bidirectionnelle); les redirections avec ajouts (>>); et les
+redirections simples. Dans le cas ou après les ESPACES on trouve un pipe, une
+redirections simples, une esperluette, ou la find de la ligne. Un message d'erreur
+s'affiche. Sinon, on trouve la fin du mot (en n'oubliant pas les quotes et les espaces
+etc...). et i pointe a la fin du fichier*/
 static void entries_exits(char *line, int *i, t_parsing *parsed)
 {
     int end;
@@ -82,6 +102,10 @@ static void entries_exits(char *line, int *i, t_parsing *parsed)
     }
 }
 
+/*Sert à stocker les délimiteurs dans la structure parsing, pour pouvoir 
+gérer les redirections comme heredocument (<<). On supprime les quotes autour du
+delimiteur ex : cat << "EOF" ici les guillemets disparaissent et on stocke EOF dans
+parsed->limiter. Les heredocuments ont besoin de délimiteurs sans quotes pour fonctionner*/
 void    add_limiters(char *buffer, int *limiter_size, t_parsing *parsed)
 {
     if (buffer)

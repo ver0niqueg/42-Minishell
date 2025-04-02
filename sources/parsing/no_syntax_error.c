@@ -12,6 +12,9 @@
 
 #include "../../includes/minishell.h"
 
+/*Cette fonction se manifeste si aucune erreur n'est détéctée. Elle découpe la
+ligne de commandes en sous commandes séparés (grâce à strndup) par des pipes.
+On lance ensuite le parsing de ces sous commandes une à une.*/
 void    if_no_syntax_error(char *line, t_minishell *minishell)
 {
     char *substr_line;

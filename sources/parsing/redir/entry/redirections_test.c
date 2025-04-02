@@ -12,6 +12,8 @@
 
 #include "../../../../includes/minishell.h"
 
+/*Permet de vérifier si dans le cas où un fichier existe, 
+si il est lisible*/
 int	not_readable(char **exp, t_parsing *parsed)
 {
 	if (access(*exp, F_OK) == 0)
@@ -30,6 +32,10 @@ int	not_readable(char **exp, t_parsing *parsed)
 	return (0);
 }
 
+/*Permet de détecter si un segment du chemin est un fichier régulier alors
+qu'un dossier est attendu. Si c'est un fichier régulier alors que ce n'est pas
+le dernier segment du chemin, si on attend un dossier, c'est une erreur.
+Ex : /usr/local/bin bin est un fichier alor bin : Not a directory */
 int	a_file(int end, char *exp, t_parsing *parsed, t_check_path *cp)
 {
 	if (S_ISREG(cp->sb.st_mode))
@@ -40,6 +46,8 @@ int	a_file(int end, char *exp, t_parsing *parsed, t_check_path *cp)
 	return (0);
 }
 
+/*Permet de détécter l'erreur et d'afficher les messages d'erreurs relatifs au type
+de permissions refusées.*/
 int	cannot_open(char *exp, t_parsing *parsed, t_check_path *cp)
 {
 	if (access(exp, F_OK) == 0)
@@ -51,6 +59,11 @@ int	cannot_open(char *exp, t_parsing *parsed, t_check_path *cp)
 	return (0);
 }
 
+/*Permet de vérifier si le chemin d'entrée est valide en testant 
+chaque sous répertoire.
+Elle détecte les dossiers illisibles et les fichiers à la place de dossiers.
+Elle découpe le chemin en segments, vérifie les autorisations
+et si le type est valide, agis si l'accès est réfusé*/
 int	path_error_en(char *exp, t_parsing *parsed)
 {
 	t_check_path	cp;

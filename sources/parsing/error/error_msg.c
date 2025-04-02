@@ -58,7 +58,8 @@ void	before_entry(t_parsing *parsed, char *line, int i)
 	syntax_err_msg(parsed, first, second, third);
 }
 
-/*Cette fonction traite le caractere de redirection de sortie (>) dans la ligne de commande.
+/*Cette fonction traite le caractere de redirection de sortie (>) mal utilisées,
+dans la ligne de commande, après un heredoc.
 Elle verifie si le caractere suivant est un &, > ou < (>&, >| ou >>)*/
 void	before_exit(t_parsing *parsed, char *line, int i)
 {

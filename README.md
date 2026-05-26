@@ -266,4 +266,4 @@ Expected: Appropriate error messages.
 
 ---
 
-vgalmich – 42 School Student
+vgalmich & vihane
